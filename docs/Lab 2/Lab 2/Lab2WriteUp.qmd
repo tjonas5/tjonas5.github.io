@@ -78,7 +78,10 @@ library(palmerpenguins)
 
 ## Part a
 Install the `esquisse` package for `R`. Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that we don't install the package every time you compile your Quarto document.
+
 **Solution** 
+
+In this code, I follow directions and install the package, while making sure the package will not be installed every time the document is compiled.
 ```{r}
 #| eval: false
 install.packages("esquisse")
@@ -88,7 +91,10 @@ install.packages("esquisse")
 
 ## Part b
 Load the `esquisse` package for `R`. Report the code below. It does not matter whether you set "\#| eval: false" because loading the package does not add a lot of time. Note you will not evaluate any code that uses the `esquisse` package, so there is no need to load it as you compile your Quarto document.
+
 **Solution** 
+
+In this code, I load the package using library().
 ```{r}
 library(esquisse)
 ```
@@ -96,27 +102,35 @@ library(esquisse)
 
 ## Part c
 How can you ask for help about the  `esquisse` package for `R`? Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that the help document isn't loaded every time you compile your Quarto document.
+
 **Solution** 
+
+To ask for help about the package, we can use help() as shown below.
 ```{r}
 #| eval: false
-
 help(esquisse)
 
 ```
 
 ## Part d
 Is a demo or vignette available for the  `esquisse` package for `R`? Report the code below, ensuring to set the `eval` option to `false`, using "\#| eval: false", so that the you don't get errors when you compile your Quarto document.
+
 **Solution** 
+
+To check if there is a demo or a vignette for the esquisse package, we call demo() and vignette() as shown below. 
 ```{r}
 #| eval: false
-demo(esquisse)
-vignette(esquisse)
+demo("esquisse")
+vignette("esquisse")
 ```
+
+The result is that there are no demos for esquisse, but there are two vignettes : get-started and shiny-usage.
 
 ## Part e
 Add the BibTeX citation for `esquisse` package for `R` to your `.bib` file and cite it in a sentence describing what the package does below. Note you can reference a citation named `esquisse` using "[@\hspace{-0em}esquisse]".
 **Solution** 
-`esquisse` @esquisse is a package that adds interactive features such as drag-and-drop onto plots, and uses the `ggplot2` package to create the plots. 
+
+`esquisse` [@esquisse] is a package that adds interactive features such as drag-and-drop onto plots, and uses the `ggplot2` package to create the plots. 
 
 <!-- Note the \hspace{-0em} above is for printing 
 the command instead of actually citing. -->
@@ -127,6 +141,7 @@ Run `esquisser()` in your console -- not in a chunk of `R` code in your Quarto d
 i. Select `palmerpenguins` from the "Select an environment in which to search:" dropdown. This should automatically select `penguins` in the "Select a data.frame:" dropdown. Click "Import Data".
 ii. Drag `body_mass_g` to the X box and `species` to the fill box. 
 iii. Describe what you see in words. What can you conclude about Adelie, Chinstrap, and Gentoo penguins based on the resulting plot? 
+
 **Solution**
 Based on the plot, I can notice that Chinstrap and Adelie penguins tend to be the same weight, however there are much more Adelie penguins in the data set. Out of the three species, Gentoo penguins tend to be the heaviest. There appears to be a similar number of Gentoo and Chinstrap penguins in the dataset. The distribution of weights in all three species generally looks like a bell curve, with low amounts of penguins at extremely high or low weights relative to the rest of their species. 
 
@@ -183,12 +198,16 @@ $$F_n = F_{n-1} + F_{n-2}$$
 where $F_0=0$ and $F_1=1$. 
 
 Create a vector of the first 10 Fibonacci numbers.
+
 **Solution**
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
 (fib = c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))
 ```
+
+Since the Fibonnaci Sequence is not sequential or repeating, I had to make it manually without using seq() or rep().
+
 ## Part b
 Triangular Numbers are the cumulative sums of natural numbers:
 $$F_n = \frac{n(n+1)}{2}.$$
@@ -199,6 +218,8 @@ Create a vector of the first 10 Triangular Numbers.
 (tri = c(1, 3, 6, 10, 15, 21, 28, 36, 45, 55))
 
 ```
+
+Since the triangular numbers are not sequential or repeating, I had to make this vector manually.  
 
 ## Part c
 Suppose I were designing a repeated meausres experiment with three treatment conditions. Each of $n=10$ participants (with `ID` 1 to 10) will receive *all* experimental conditions, call them "Control", "Treatment A", and "Treatment B". 
@@ -225,4 +246,5 @@ Create a vector containing the `character` "MATH" and the `numeric` 240. What is
 ```{r}
 vec = c("MATH", 240)
 ```
-This vector has class character because it has both a character and a numeric in it, and the character is further to the right on the diagram from class, so it takes priority, and the whole vector becomes a character.
+
+This vector has class character because it has both a character and a numeric in it, and the character is further to the right on the diagram from class, so it takes priority, and the whole vector becomes a character. This is because "MATH" cannot be changed to a number.
