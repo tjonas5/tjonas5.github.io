@@ -283,8 +283,9 @@ ggplot() +
   xlim(-10, 5) +
   ylim(-10, 20) +
   labs(x = "x", y = "y")
-det(A)
+det(T)
 ```
+
 This shape has the same area as the shape from question 1. It looks marginally different, but has the same overall shape, just slightly streched down.
 
 ## Part b
@@ -312,12 +313,15 @@ ggplot() +
   xlim(-10, 5) +
   ylim(-10, 20) +
   labs(x = "x", y = "y")
-det(A)
+det(T)
 ```
+
 For this shape, the area is the same as the previous two. This time, the shear effect is much more visible and the shape now looks like a diamond as opposed to a rectangle.
+
 ## Part c
 Can we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b).
 $$\mathbf{M}_{vh} = \begin{bmatrix} 1 & k=0.5 \\ k=0.5 & 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~ \mathbf{A}   = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
+
 **Solution**
 ```{r}
 M = matrix(c(1, 0.5, 0.5, 1), nrow=2, byrow=T)
@@ -339,10 +343,11 @@ ggplot() +
   xlim(-10, 5) +
   ylim(-10, 25) +
   labs(x = "x", y = "y")
-det(A)
+det(T)
 ```
+
 # Question 4
-The area of the shape is the same as in the previous parts. It looks mostly similar to part b, but slightly more compressed due to the additional vertical shear.
+It is possible to shear horizontally and vertically at the same time. The area of the shape is less than in the previous parts. It looks mostly similar to part b, but slightly more compressed due to the additional vertical shear.
 
 ## Part a
 Create a data frame `ladder` with the following data. Note your data frame should have three columns; I split it to save vertical space here.
@@ -426,7 +431,6 @@ leaning.ladder = data.frame(x=T[,1], y=T[,2], group = group)
 Remove `eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.
 
 ```{r}
-
 #| label: fig-ladder2
 #| fig-cap: "A ladder and a leaning ladder."
 #| fig-width: 3

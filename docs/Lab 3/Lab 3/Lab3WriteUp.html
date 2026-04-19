@@ -253,11 +253,15 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#part-a-2" id="toc-part-a-2" class="nav-link" data-scroll-target="#part-a-2"><span class="header-section-number">3.1</span> Part a</a></li>
   <li><a href="#part-b-2" id="toc-part-b-2" class="nav-link" data-scroll-target="#part-b-2"><span class="header-section-number">3.2</span> Part b</a></li>
-  <li><a href="#part-a-3" id="toc-part-a-3" class="nav-link" data-scroll-target="#part-a-3"><span class="header-section-number">3.3</span> Part a</a></li>
-  <li><a href="#part-b-3" id="toc-part-b-3" class="nav-link" data-scroll-target="#part-b-3"><span class="header-section-number">3.4</span> Part b</a></li>
-  <li><a href="#part-c-2" id="toc-part-c-2" class="nav-link" data-scroll-target="#part-c-2"><span class="header-section-number">3.5</span> Part c</a></li>
-  <li><a href="#part-d-2" id="toc-part-d-2" class="nav-link" data-scroll-target="#part-d-2"><span class="header-section-number">3.6</span> Part d</a></li>
-  <li><a href="#part-e-2" id="toc-part-e-2" class="nav-link" data-scroll-target="#part-e-2"><span class="header-section-number">3.7</span> Part e</a></li>
+  <li><a href="#part-c-2" id="toc-part-c-2" class="nav-link" data-scroll-target="#part-c-2"><span class="header-section-number">3.3</span> Part c</a></li>
+  </ul></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4"><span class="header-section-number">4</span> Question 4</a>
+  <ul class="collapse">
+  <li><a href="#part-a-3" id="toc-part-a-3" class="nav-link" data-scroll-target="#part-a-3"><span class="header-section-number">4.1</span> Part a</a></li>
+  <li><a href="#part-b-3" id="toc-part-b-3" class="nav-link" data-scroll-target="#part-b-3"><span class="header-section-number">4.2</span> Part b</a></li>
+  <li><a href="#part-c-3" id="toc-part-c-3" class="nav-link" data-scroll-target="#part-c-3"><span class="header-section-number">4.3</span> Part c</a></li>
+  <li><a href="#part-d-2" id="toc-part-d-2" class="nav-link" data-scroll-target="#part-d-2"><span class="header-section-number">4.4</span> Part d</a></li>
+  <li><a href="#part-e-2" id="toc-part-e-2" class="nav-link" data-scroll-target="#part-e-2"><span class="header-section-number">4.5</span> Part e</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab3WriteUp.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -653,13 +657,14 @@ Figure&nbsp;1: The unit square.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">det</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">det</span>(T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 44</code></pre>
 </div>
 </div>
-<p> This shape has the same area as the shape from question 1. It looks marginally different, but has the same overall shape, just slightly streched down.</p>
+<p></p>
+<p>This shape has the same area as the shape from question 1. It looks marginally different, but has the same overall shape, just slightly streched down.</p>
 </section>
 <section id="part-b-2" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="part-b-2"><span class="header-section-number">3.2</span> Part b</h2>
@@ -698,13 +703,19 @@ Figure&nbsp;1: The unit square.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">det</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">det</span>(T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 44</code></pre>
 </div>
 </div>
-<p> For this shape, the area is the same as the previous two. This time, the shear effect is much more visible and the shape now looks like a diamond as opposed to a rectangle. ## Part c Can we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b). <span class="math display">\[\mathbf{M}_{vh} = \begin{bmatrix} 1 &amp; k=0.5 \\ k=0.5 &amp; 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~ \mathbf{A}   = \begin{bmatrix} 1 &amp; -7 \\ 5 &amp; 9 \end{bmatrix}\]</span> <strong>Solution</strong></p>
+<p></p>
+<p>For this shape, the area is the same as the previous two. This time, the shear effect is much more visible and the shape now looks like a diamond as opposed to a rectangle.</p>
+</section>
+<section id="part-c-2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="part-c-2"><span class="header-section-number">3.3</span> Part c</h2>
+<p>Can we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b). <span class="math display">\[\mathbf{M}_{vh} = \begin{bmatrix} 1 &amp; k=0.5 \\ k=0.5 &amp; 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~ \mathbf{A}   = \begin{bmatrix} 1 &amp; -7 \\ 5 &amp; 9 \end{bmatrix}\]</span></p>
+<p><strong>Solution</strong></p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -738,16 +749,20 @@ Figure&nbsp;1: The unit square.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">det</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">det</span>(T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 44</code></pre>
+<pre><code>[1] 33</code></pre>
 </div>
 </div>
-<p> # Question 4 The area of the shape is the same as in the previous parts. It looks mostly similar to part b, but slightly more compressed due to the additional vertical shear.</p>
+<p></p>
 </section>
-<section id="part-a-3" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="part-a-3"><span class="header-section-number">3.3</span> Part a</h2>
+</section>
+<section id="question-4" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Question 4</h1>
+<p>It is possible to shear horizontally and vertically at the same time. The area of the shape is less than in the previous parts. It looks mostly similar to part b, but slightly more compressed due to the additional vertical shear.</p>
+<section id="part-a-3" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="part-a-3"><span class="header-section-number">4.1</span> Part a</h2>
 <p>Create a data frame <code>ladder</code> with the following data. Note your data frame should have three columns; I split it to save vertical space here.</p>
 <table class="caption-top table">
 <thead>
@@ -899,8 +914,8 @@ Figure&nbsp;1: The unit square.
 </div>
 <p></p>
 </section>
-<section id="part-b-3" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="part-b-3"><span class="header-section-number">3.4</span> Part b</h2>
+<section id="part-b-3" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="part-b-3"><span class="header-section-number">4.2</span> Part b</h2>
 <p>Remove <code>#|eval: false</code> in the code below. The result should look like a ladder and a very rectangular house if part a is correct. <strong>Solution</strong></p>
 <p></p>
 <div class="cell" data-layout-align="center" data-scale="80%">
@@ -936,8 +951,8 @@ Figure&nbsp;2: A ladder.
 </div>
 <p></p>
 </section>
-<section id="part-c-2" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="part-c-2"><span class="header-section-number">3.5</span> Part c</h2>
+<section id="part-c-3" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="part-c-3"><span class="header-section-number">4.3</span> Part c</h2>
 <p>Use <code>as.matrix()</code> to create a <span class="math inline">\(22 \times 2\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> containing the <code>x</code> and <code>y</code> observations from the <code>ladder</code> data frame. Use matrix multiplication to compute <span class="math display">\[\mathbf{T} = \mathbf{A} \mathbf{M}_h.\]</span> Recall, <span class="math display">\[\mathbf{M}_h = \begin{bmatrix} 1 &amp; 0 \\ k &amp; 1 \end{bmatrix}\]</span> and use <span class="math inline">\(k=0.5.\)</span> <strong>Solution</strong></p>
 <p></p>
 <div class="cell">
@@ -1011,8 +1026,8 @@ Figure&nbsp;2: A ladder.
 </div>
 <p></p>
 </section>
-<section id="part-d-2" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="part-d-2"><span class="header-section-number">3.6</span> Part d</h2>
+<section id="part-d-2" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="part-d-2"><span class="header-section-number">4.4</span> Part d</h2>
 <p>Create a data frame <code>leaning.ladder</code> with the <code>x</code> and <code>y</code> equal to the first and second column of <span class="math inline">\(\mathbf{T}\)</span>, respectively, and the same values of <code>group</code> from <code>ladder</code>. <strong>Solution</strong></p>
 <p></p>
 <div class="cell">
@@ -1023,42 +1038,40 @@ Figure&nbsp;2: A ladder.
 </div>
 <p></p>
 </section>
-<section id="part-e-2" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="part-e-2"><span class="header-section-number">3.7</span> Part e</h2>
+<section id="part-e-2" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="part-e-2"><span class="header-section-number">4.5</span> Part e</h2>
 <p>Remove <code>eval: false</code> in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.</p>
 <p></p>
-<div class="cell">
+<div class="cell" data-layout-align="center" data-scale="80%">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="co">#| label: fig-ladder2</span></span>
-<span id="cb68-2"><a href="#cb68-2"></a><span class="co">#| fig-cap: "A ladder and a leaning ladder."</span></span>
-<span id="cb68-3"><a href="#cb68-3"></a><span class="co">#| fig-width: 3</span></span>
-<span id="cb68-4"><a href="#cb68-4"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb68-5"><a href="#cb68-5"></a><span class="co">#| scale: "80%"</span></span>
-<span id="cb68-6"><a href="#cb68-6"></a><span class="co">#| fig-align: "center"</span></span>
-<span id="cb68-7"><a href="#cb68-7"></a><span class="co">#| size: "scriptsize"</span></span>
-<span id="cb68-8"><a href="#cb68-8"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb68-9"><a href="#cb68-9"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> ladder, </span>
-<span id="cb68-10"><a href="#cb68-10"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group, <span class="at">color =</span> <span class="st">"Starting Ladder"</span>)) <span class="sc">+</span></span>
-<span id="cb68-11"><a href="#cb68-11"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> leaning.ladder, </span>
-<span id="cb68-12"><a href="#cb68-12"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group, <span class="at">color =</span> <span class="st">"Leaning Ladder"</span>)) <span class="sc">+</span></span>
-<span id="cb68-13"><a href="#cb68-13"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">10</span>,</span>
-<span id="cb68-14"><a href="#cb68-14"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
-<span id="cb68-15"><a href="#cb68-15"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
-<span id="cb68-16"><a href="#cb68-16"></a>                   <span class="at">y=</span><span class="dv">20</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
-<span id="cb68-17"><a href="#cb68-17"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">20</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
-<span id="cb68-18"><a href="#cb68-18"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
-<span id="cb68-19"><a href="#cb68-19"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
-<span id="cb68-20"><a href="#cb68-20"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb68-21"><a href="#cb68-21"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb68-22"><a href="#cb68-22"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">22</span>) <span class="sc">+</span></span>
-<span id="cb68-23"><a href="#cb68-23"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">22</span>) <span class="sc">+</span></span>
-<span id="cb68-24"><a href="#cb68-24"></a>  <span class="fu">scale_color_manual</span>(<span class="st">""</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"grey"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb68-2"><a href="#cb68-2"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> ladder, </span>
+<span id="cb68-3"><a href="#cb68-3"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group, <span class="at">color =</span> <span class="st">"Starting Ladder"</span>)) <span class="sc">+</span></span>
+<span id="cb68-4"><a href="#cb68-4"></a>  <span class="fu">geom_path</span>(<span class="at">data =</span> leaning.ladder, </span>
+<span id="cb68-5"><a href="#cb68-5"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> group, <span class="at">color =</span> <span class="st">"Leaning Ladder"</span>)) <span class="sc">+</span></span>
+<span id="cb68-6"><a href="#cb68-6"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">10</span>,</span>
+<span id="cb68-7"><a href="#cb68-7"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb68-8"><a href="#cb68-8"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
+<span id="cb68-9"><a href="#cb68-9"></a>                   <span class="at">y=</span><span class="dv">20</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb68-10"><a href="#cb68-10"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">20</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
+<span id="cb68-11"><a href="#cb68-11"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">20</span>))<span class="sc">+</span></span>
+<span id="cb68-12"><a href="#cb68-12"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">xend =</span> <span class="dv">20</span>,</span>
+<span id="cb68-13"><a href="#cb68-13"></a>                   <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb68-14"><a href="#cb68-14"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb68-15"><a href="#cb68-15"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">22</span>) <span class="sc">+</span></span>
+<span id="cb68-16"><a href="#cb68-16"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">22</span>) <span class="sc">+</span></span>
+<span id="cb68-17"><a href="#cb68-17"></a>  <span class="fu">scale_color_manual</span>(<span class="st">""</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"grey"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Lab3WriteUp_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-ladder2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-ladder2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: A ladder and a leaning ladder.
+</figcaption>
+<div aria-describedby="fig-ladder2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Lab3WriteUp_files/figure-html/fig-ladder2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288">
+</div>
 </figure>
 </div>
 </div>
