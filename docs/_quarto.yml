@@ -11,13 +11,20 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - 02-Lab-ObjectsInR/Lab2WriteUp.qmd
-      - 03-Lab-ObjectsInR2/Lab3WriteUp.qmd
-      - 04-Lab-Programming/Lab4WriteUp.qmd
-      - 05-Lab-DataWrangling/Lab5WriteUp.qmd
-      - 08-Lab-probability/Lab8WriteUp.qmd
-      - 10-Lab-pointestimation/Lab10WriteUp.qmd
-      - 11-Lab-Estimation/Lab11WriteUp.qmd
+      - href: "Lab 2/Lab2WriteUp.html"
+        text: "Lab 2"
+      - href: "Lab 3/Lab3WriteUp.html"
+        text: "Lab 3"
+      - href: "Lab 4/Lab4WriteUp.html"
+        text: "Lab 4"
+      - href: "Lab 5/Lab5WriteUp.html"
+        text: "Lab 5"
+      - href: "Lab 8/Lab8WriteUp.html"
+        text: "Lab 8"
+      - href: "Lab 10/Lab10WriteUp.html"
+        text: "Lab 10"
+      - href: "Lab 11/Lab11WriteUp.html"
+        text: "Lab 11"
 
 format:
   html:
