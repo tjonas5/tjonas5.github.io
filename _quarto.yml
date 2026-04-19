@@ -1,13 +1,23 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "BLAH"
-  navbar:
-    left:
+  sidebar:
+    style: "docked"
+    search: false
+    contents:
       - href: index.qmd
         text: Home
       - about.qmd
+      - 02-Lab-ObjectsInR/Lab2WriteUp.qmd
+      - 03-Lab-ObjectsInR2/Lab3WriteUp.qmd
+      - 04-Lab-Programming/Lab4WriteUp.qmd
+      - 05-Lab-DataWrangling/Lab5WriteUp.qmd
+      - 08-Lab-probability/Lab8WriteUp.qmd
+      - 10-Lab-pointestimation/Lab10WriteUp.qmd
+      - 11-Lab-Estimation/Lab11WriteUp.qmd
 
 format:
   html:
@@ -17,35 +27,5 @@ format:
     css: styles.css
     toc: true
 
-
-:::{.cell}
-project:
-2 type: website
-3 output-dir: docs
-4
-5 website:
-6 title: "Portfolio"
-7 sidebar:
-8 style: "docked"
-9 search: false
-1
-10 contents:
-11 - href: index.qmd
-12 text: Home
-13 - about.qmd
-14 - 02-Lab-ObjectsInR/Lab2WriteUp.qmd
-15 - 03-Lab-ObjectsInR2/Lab3WriteUp.qmd
-16 - 04-Lab-Programming/Lab4WriteUp.qmd
-17 - 05-Lab-DataWrangling/Lab5WriteUp.qmd
-18 - 08-Lab-probability/Lab8WriteUp.qmd
-19 - 10-Lab-pointestimation/Lab10WriteUp.qmd
-20 - 11-Lab-Estimation/Lab11WriteUp.qmd
-21
-22 format:
-23 html:
-24 theme:
-25 - cosmo
-26 - brand
-27 css: styles.css
-28 toc: true
-:::
+execute:
+  freeze: auto
