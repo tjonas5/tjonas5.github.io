@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab Ten – Point Estimation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Lab10WriteUp_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Lab10WriteUp_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Lab10WriteUp_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab10WriteUp_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Lab10WriteUp_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Lab10WriteUp_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Lab10WriteUp_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab10WriteUp.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab Ten – Point Estimation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p></p>
+<p></p>
+<p><strong>Tips</strong></p>
+<ul>
+<li>Complete the tasks below. Make sure to start your solutions in on a new line that starts with “<strong>Solution</strong>:”.</li>
+<li>Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab <em>much</em> easier.</li>
+<li>Make sure to use “enter” to make your code readable, so it doesn’t run off the page. I switched the Quarto document to automatically render to .pdf, so you can see what you’re submitting by default. You can switch back for the highlighting by moving the html block above the pdf block in the YAML header.</li>
+<li>Don’t forget that you can copy-and-paste code when you’re doing something similar as we did in class!</li>
+<li>Make sure to plot all computed probabilities. This is good <code>ggplot</code> practice AND will help make sure you don’t make a mistake when computing the probability.</li>
+</ul>
+<section id="lab-8-notes" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Lab 8 Notes</h1>
+<section id="althams-multiplicative-binomial-distribution" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="althams-multiplicative-binomial-distribution"><span class="header-section-number">1.1</span> Altham’s Multiplicative Binomial Distribution</h2>
+<p>The PMF for Altham’s Multiplicative Binomial Distribution is <span class="math display">\[f_X(x) = \frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}I(x \in \{0, 1, ..., n\})\]</span> where <span class="math display">\[c = \sum_{i=0}^n {n \choose i} p^i (1-p)^{n-i} \theta^{i(n-i)}.\]</span> Just so we start on the same page, I have included my <code>R</code> function for computing probability using this distribution.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>daltbinom <span class="ot">&lt;-</span> <span class="cf">function</span>(x, size, prob, theta){</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  normalizing.constant <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>size){</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    normalizing.constant <span class="ot">&lt;-</span> normalizing.constant <span class="sc">+</span> </span>
+<span id="cb1-5"><a href="#cb1-5"></a>      <span class="fu">choose</span>(size, j) <span class="sc">*</span> prob<span class="sc">^</span>j <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>prob)<span class="sc">^</span>(size<span class="sc">-</span>j) <span class="sc">*</span> theta<span class="sc">^</span>(j<span class="sc">*</span>(size<span class="sc">-</span>j))</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  }</span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="co"># Probability Mass at x=x</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  (<span class="dv">1</span><span class="sc">/</span>normalizing.constant) <span class="sc">*</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="fu">choose</span>(size, x) <span class="sc">*</span> prob<span class="sc">^</span>x <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>prob)<span class="sc">^</span>(size<span class="sc">-</span>x) <span class="sc">*</span> theta<span class="sc">^</span>(x<span class="sc">*</span>(size<span class="sc">-</span>x)) <span class="sc">*</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>      (x<span class="sc">&gt;=</span><span class="dv">0</span>)<span class="sc">*</span>(x<span class="sc">&lt;=</span>size)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+</section>
+</section>
+<section id="althams-multiplicative-beta-binomial-distribution" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Altham’s Multiplicative Beta Binomial Distribution</h1>
+<p>The PMF for Altham’s Multiplicative Beta Binomial Distribution is <span class="math display">\[f_X(x) = \left[\int_{0}^1 \left(\frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}\right)\left(\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} p^{\alpha-1}(1-p)^{\beta-1}\right) dp\right]I(x \in \{0, 1, ..., n\})\]</span></p>
+<p>Just so we start on the same page, I have included my <code>R</code> function for computing probability using this distribution.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>daltbbinom.single <span class="ot">&lt;-</span> <span class="cf">function</span>(x, size, alpha, beta, theta){</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    integrand <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="fu">sapply</span>(p, <span class="co"># integrate will pass in a vector, so we use sapply to apply the following</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>           <span class="cf">function</span>(p_val){</span>
+<span id="cb2-5"><a href="#cb2-5"></a>             <span class="co"># f(x|p) * f(p|alpha, beta)</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>             <span class="fu">daltbinom</span>(x, size, p_val, theta) <span class="sc">*</span> <span class="fu">dbeta</span>(p_val, alpha, beta)</span>
+<span id="cb2-7"><a href="#cb2-7"></a>           }</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    )</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  }</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="co"># Probability Mass at x=x</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="co"># integrate(integrand, lower = 0, upper = 1)$value * (x&gt;=0)*(x&lt;=size)</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="co"># I shrink the bounds below to avoid log(0)=-infinty</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>  <span class="co"># I use try() to catch when there is an error and avoid crashing</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>  res <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">integrate</span>(integrand, <span class="at">lower =</span> <span class="fl">1e-7</span>, <span class="at">upper =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fl">1e-7</span>)<span class="sc">$</span>value <span class="sc">*</span> </span>
+<span id="cb2-15"><a href="#cb2-15"></a>                  (x<span class="sc">&gt;=</span><span class="dv">0</span>)<span class="sc">*</span>(x<span class="sc">&lt;=</span>size), </span>
+<span id="cb2-16"><a href="#cb2-16"></a>             <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-17"><a href="#cb2-17"></a>  <span class="co"># If there is an error, return a near-zero probability</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>  <span class="cf">if</span>(<span class="fu">inherits</span>(res, <span class="st">"try-error"</span>)) <span class="fu">return</span>(<span class="fl">0.1</span><span class="sc">^</span><span class="dv">6</span>)</span>
+<span id="cb2-19"><a href="#cb2-19"></a>  </span>
+<span id="cb2-20"><a href="#cb2-20"></a>  res</span>
+<span id="cb2-21"><a href="#cb2-21"></a>}</span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co"># Write a function that works on a vector</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a>daltbbinom <span class="ot">&lt;-</span> <span class="cf">function</span>(x, size, alpha, beta, theta){</span>
+<span id="cb2-24"><a href="#cb2-24"></a>  <span class="fu">sapply</span>(<span class="at">X=</span>x, <span class="at">FUN=</span>daltbbinom.single, <span class="at">size=</span>size, <span class="at">alpha=</span>alpha, <span class="at">beta=</span>beta, <span class="at">theta=</span>theta)</span>
+<span id="cb2-25"><a href="#cb2-25"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+</section>
+<section id="question-1" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Question 1</h1>
+<p>In Lab 8, we use Altham’s Multiplicative Binomial Distribution. Your job was to interpret the impact of <span class="math inline">\(\theta\)</span> in that equation. In this lab, we will model the number of legs won in a best of eleven (first to six) match.</p>
+<p>To help us think about the interpretation, something that was challenging before, let’s try something a little more manageable.</p>
+<section id="part-a" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="part-a"><span class="header-section-number">3.1</span> Part a</h2>
+<p>Suppose a player has a 50% chance of winning a specific leg, that is let <span class="math inline">\(p=0.50\)</span>. Let’s look at the probability they win (<span class="math inline">\(x=6\)</span>) legs in the match. Compute this probability over a sequence from <span class="math inline">\(\theta=0.5\)</span> to <span class="math inline">\(\theta=1.5\)</span> and plot it using a line where the <span class="math inline">\(x\)</span>-axis is <span class="math inline">\(\theta\)</span> and the <span class="math inline">\(y\)</span>-axis is <span class="math inline">\(P(X=6)\)</span>.</p>
+<p><strong>Solution</strong></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>p<span class="ot">=</span>.<span class="dv">5</span> </span>
+<span id="cb3-3"><a href="#cb3-3"></a>x <span class="ot">=</span> <span class="dv">6</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>theta<span class="ot">=</span> <span class="fu">seq</span>(.<span class="dv">5</span>, <span class="fl">1.5</span>, .<span class="dv">001</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>data <span class="ot">=</span> <span class="fu">daltbinom</span>(<span class="at">x =</span> x, <span class="at">size =</span> <span class="dv">11</span>, <span class="at">prob =</span> p, <span class="at">theta =</span> theta)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>ggdat<span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">theta =</span> theta) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a> <span class="fu">mutate</span>(<span class="at">Probability =</span> data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p></p>
+<div class="cell" data-layout-align="center" data-scale="80%">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ggdat) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> Probability))<span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Theta"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>        <span class="at">y=</span><span class="st">"P(X=6)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-line-theta-prob" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-line-theta-prob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: P(X=6) for different values of theta.
+</figcaption>
+<div aria-describedby="fig-line-theta-prob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Lab10WriteUp_files/figure-html/fig-line-theta-prob-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</section>
+<section id="part-b" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="part-b"><span class="header-section-number">3.2</span> Part b</h2>
+<p>Now, plot Altham’s Multiplicative Binomial Distribution under the same parameters with <span class="math inline">\(\theta=0.50\)</span>, <span class="math inline">\(\theta=1\)</span>, and <span class="math inline">\(\theta=1.5\)</span>. Use <code>ncol=1</code> in <code>facet_wrap()</code> to plot the PMFs in a single column for comparing.</p>
+<p><strong>Solution</strong></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>x<span class="ot">=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">11</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>theta_<span class="fl">.5</span>_data<span class="ot">=</span><span class="fu">daltbinom</span>(<span class="at">x=</span>x, <span class="at">size=</span><span class="dv">11</span>, <span class="at">prob =</span> .<span class="dv">5</span>, <span class="at">theta =</span> .<span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>theta_1_data<span class="ot">=</span><span class="fu">daltbinom</span>(<span class="at">x=</span>x, <span class="at">size=</span><span class="dv">11</span>, <span class="at">prob=</span>.<span class="dv">5</span>, <span class="at">theta =</span> <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>theta_1<span class="fl">.5</span>_data<span class="ot">=</span><span class="fu">daltbinom</span>(<span class="at">x=</span>x, <span class="at">size=</span><span class="dv">11</span>, <span class="at">prob=</span>.<span class="dv">5</span>, <span class="at">theta =</span> <span class="fl">1.5</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a>ggdat<span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">Games_won =</span> x) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a> <span class="fu">mutate</span>(<span class="at">Theta_.5 =</span> theta_<span class="fl">.5</span>_data, <span class="at">Theta_1=</span>theta_1_data, <span class="at">Theta_1.5=</span>theta_1<span class="fl">.5</span>_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p></p>
+<div class="cell" data-layout-align="center" data-scale="80%">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>theta<span class="fl">.5</span>plot<span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ggdat) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Games_won, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax =</span> Theta_<span class="fl">.5</span>))<span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Games won"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>        <span class="at">y=</span><span class="st">"P(X=6) when theta = .5"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7"></a>theta1plot <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ggdat) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Games_won, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax =</span> Theta_1))<span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb6-10"><a href="#cb6-10"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Games won"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>        <span class="at">y=</span><span class="st">"P(X=6) when theta = 1"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12"></a>theta1<span class="fl">.5</span>plot <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ggdat) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Games_won, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax =</span> Theta_1<span class="fl">.5</span>))<span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb6-15"><a href="#cb6-15"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Games won"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="at">y=</span><span class="st">"P(X=6) when theta = 1.5"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a>theta<span class="fl">.5</span>plot<span class="sc">+</span>theta1plot<span class="sc">+</span>theta1<span class="fl">.5</span>plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-line-all-theta-values-prob" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-line-all-theta-values-prob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: P(X=6) graphs for theta values .5, 1, and 1.5
+</figcaption>
+<div aria-describedby="fig-line-all-theta-values-prob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Lab10WriteUp_files/figure-html/fig-line-all-theta-values-prob-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+</section>
+<section id="part-c" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="part-c"><span class="header-section-number">3.3</span> Part c</h2>
+<p>What is your best assessment of what <span class="math inline">\(\theta\)</span> is doing in this setting. Consider when a 6-0 blowout is most likely, and when a 5-6 nail-biter is most likely. Note here we should treat the match as a fixed <span class="math inline">\(n=11\)</span> as we did for <span class="math inline">\(n=3\)</span> in Lab 8.<br>
+<strong>Note:</strong> In lab 8, we saw that small <span class="math inline">\(\theta\)</span> meant wins came in bunches (clumped together), so there were more 2-0 wins in a best of three series.</p>
+<p><strong>Solution</strong></p>
+<p>In this setting, an increasing theta is making it more likely that there is a close outcome. We can see this because when theta = .5, the probability of a player winning 0 or 11 games (hypothetically) is much larger than the probability of a close match, such as one ending with the score of 6-5. Conversely, when theta = 1.5, it is much more likely for the score to be 6-5 than it is 0-11.</p>
+</section>
+</section>
+<section id="question-2" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Question 2</h1>
+<section id="part-a-1" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="part-a-1"><span class="header-section-number">4.1</span> Part a</h2>
+<p>Altham’s Multiplicative Binomial Distribution does not typically simplify to the clean <span class="math inline">\(E(X)=np\)</span> seen in the Binomial distribution, unless <span class="math inline">\(\theta = 1\)</span>. Write out the expression that would need to be solved to find <span class="math inline">\(E(X^k)\)</span>, and then write a function that computes it given the proposed parameter values <span class="math inline">\(p\)</span> (<code>prob</code>) and <span class="math inline">\(\theta\)</span> (<code>theta</code>).</p>
+<p><strong>Solution</strong> Here is the expression to find <span class="math inline">\(E(X^k)\)</span>. <span class="math display">\[E(x^k) = \sum_{i=-\infty}^{\infty} x^k \frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}I(x \in \{0, 1, ..., n\})\]</span></p>
+<p>Here is the code to compute it. This function uses the given daltbinom from previously.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>genaltbinom <span class="ot">=</span> <span class="cf">function</span>(p, theta, size){</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  x<span class="ot">=</span><span class="dv">1</span><span class="sc">:</span>size</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  n<span class="ot">=</span><span class="dv">11</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  sum<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="cf">for</span> (i <span class="cf">in</span> x)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="fu">daltbinom</span>(<span class="at">x=</span><span class="dv">1</span>, <span class="at">p=</span>p, <span class="at">theta=</span>theta, <span class="at">n=</span>n)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+</section>
+<section id="part-b-1" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="part-b-1"><span class="header-section-number">4.2</span> Part b</h2>
+<p>Describe how you can use your answer to part a to find Method of Moments estimates for the parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(\theta\)</span> for Altham’s Multiplicative Binomial Distribution based on data.</p>
+<p><strong>Solution</strong></p>
+<p>When given data, we can calculate the mean of the data and the mean of the data squared, which are the sample moments. Using my function, it is possible to calculate the population moments, which are the expected values of the random variable of interest. Setting the first sample moment equal to the first population moment and the second sample moment equal to the second population moment, we would be able to solve the system of equations and find estimates of p and theta.</p>
+</section>
+<section id="part-c-1" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="part-c-1"><span class="header-section-number">4.3</span> Part c</h2>
+<p>Write a function that computes the log-likelihood for Altham’s Multiplicative Binomial Distribution, given data (<code>x</code>) and proposed parameter values <span class="math inline">\(p\)</span> (<code>prob</code>) and <span class="math inline">\(\theta\)</span> (<code>theta</code>).</p>
+<p><strong>Solution</strong> Here is the code for that function.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>loglikelihood <span class="ot">=</span> <span class="cf">function</span>(x, p, theta, <span class="at">n =</span> <span class="dv">6</span>) {</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  sum <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x))</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    sum <span class="ot">=</span> sum <span class="sc">+</span> <span class="fu">log</span>(<span class="fu">daltbinom</span>(<span class="at">x =</span> x[i], <span class="at">p =</span> p, <span class="at">theta =</span> theta, <span class="at">size=</span><span class="dv">11</span> ))</span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">return</span>(sum)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+</section>
+<section id="part-d" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="part-d"><span class="header-section-number">4.4</span> Part d</h2>
+<p>Describe how you can use your answer to part c to find Maximum Likelihood estimates for the parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(\theta\)</span> for Altham’s Multiplicative Binomial Distribution based on data.</p>
+<p><strong>Solution</strong></p>
+<p>As discussed in class, we can use the optim() function in r to solve for the minimum values. Since optim finds the minimum, we use the negative function so it finds the maximum. This will then give us the optimal values of p and theta to maximize the function. This maximization yields the most probable model given the data.</p>
+</section>
+</section>
+<section id="lab-10" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Lab 10</h1>
+<p>Peter “Snakebite” Wright is a two-time Professional Darts Corporation World Champion (2020, 2022) and a former World No.&nbsp;1. He is one of the sport’s most decorated players, winning nearly 50 PDC titles including the World Matchplay, UK Open, and multiple European Championships.</p>
+<p>In 2024, he made The Premier League – a league involving the eight best players that runs every Thursday night from February to May. In this season, he won two of eighteen matches, securing only four points. The spread in legs won was -43, meaning he lost 43 more legs than he won. This performance was rather quite bad. He was soundly trounced in almost all his match ups.</p>
+<p>The 2024 standings are below:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Rank</th>
+<th style="text-align: left;">Player</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Luke Littler</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Luke Humphries</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Michael van Gerwen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Michael Smith</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Nathan Aspinall</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Rob Cross</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Gerwyn Price</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Peter Wright</td>
+</tr>
+</tbody>
+</table>
+<section id="summarize-the-2024-data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="summarize-the-2024-data"><span class="header-section-number">5.1</span> Summarize the 2024 Data</h2>
+<p>In <code>pdc2024.csv</code>, I have provided the data for the 2024 Premier League season. There are a few data cleaning steps to consider.</p>
+<ul>
+<li>Remove any matches with no <code>Score</code> (e.g., a bye or walkover)</li>
+<li>Nights 1 through 16 are best of 11 (first to 6), but the playoffs are extended. For consistency, keep nights 1 through 16 only.</li>
+<li>Make two columns <code>WinnerLegs</code> and <code>LoserLegs</code> that keep track of the number of legs each player has won</li>
+</ul>
+<p>Summarize the data. What do the data tell us about the breakdown of the results?</p>
+<p><strong>Solution</strong></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>raw.data <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">'/Users/tobijonas/lab-10-point-estimation-tjonas5/pdc2024.csv'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>data2<span class="ot">=</span> <span class="fu">filter</span>(raw.data, <span class="fu">as.numeric</span>(Night) <span class="sc">&lt;</span> <span class="dv">17</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a>        <span class="fu">separate_wider_delim</span>(Score, <span class="at">delim=</span><span class="st">"-"</span>, <span class="at">names=</span><span class="fu">c</span>(<span class="st">"WinnerLegs"</span>, <span class="st">"LoserLegs"</span>), <span class="at">too_few =</span> <span class="st">"debug"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a>data2 <span class="ot">=</span> data2 <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">LoserLegs =</span> <span class="fu">as.numeric</span>(LoserLegs),</span>
+<span id="cb9-5"><a href="#cb9-5"></a>              <span class="at">WinnerLegs =</span> <span class="fu">as.numeric</span>(WinnerLegs))</span>
+<span id="cb9-6"><a href="#cb9-6"></a>              </span>
+<span id="cb9-7"><a href="#cb9-7"></a>data3<span class="ot">=</span><span class="fu">na.omit</span>(data2)</span>
+<span id="cb9-8"><a href="#cb9-8"></a>data3 <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    <span class="at">total_matches =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="at">avg_loser_legs =</span> <span class="fu">mean</span>(LoserLegs, <span class="at">na.rm =</span> T),</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="at">pct_close =</span> <span class="fu">mean</span>(<span class="dv">6</span> <span class="sc">-</span> LoserLegs <span class="sc">==</span> <span class="dv">1</span>, <span class="at">na.rm =</span> T)  <span class="co"># close here means decided by 1 leg</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  total_matches avg_loser_legs pct_close
+          &lt;int&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+1           111           3.56     0.279</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>data3 <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">group_by</span>(Round) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="at">match_count  =</span> <span class="fu">n</span>(),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="co"># no need to calculate average winner legs since it is always six</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>    <span class="at">avg_loser_legs  =</span> <span class="fu">mean</span>(LoserLegs, <span class="at">na.rm =</span> T),</span>
+<span id="cb11-7"><a href="#cb11-7"></a>    <span class="at">pct_close   =</span> <span class="fu">mean</span>(<span class="dv">6</span> <span class="sc">-</span> LoserLegs <span class="sc">==</span> <span class="dv">1</span>, <span class="at">na.rm =</span> T)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  Round         match_count avg_loser_legs pct_close
+  &lt;chr&gt;               &lt;int&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+1 Final                  16           3.38     0.188
+2 Quarter-Final          63           3.57     0.270
+3 Semi-Final             32           3.62     0.344</code></pre>
+</div>
+</div>
+<p></p>
+<p></p>
+<div class="cell" data-layout-align="center" data-scale="80%">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>data3 <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">mutate</span>(<span class="at">Score =</span> <span class="fu">paste0</span>(WinnerLegs, <span class="st">"-"</span>, LoserLegs)) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">count</span>(Score) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Score, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"darkorchid2"</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Scoreline"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>Distribution of Scorelines</figcaption>
+<p><img src="Lab10WriteUp_files/figure-html/scoreline-distribution-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>This data tells us that most matches are decided by more than one leg, and as such are not “close”. It also tells us that the round of the tournament has an effect on what percent of matches are close. Interestingly, the final was the least close of the three rounds, while the quarterfinal was the second closest round, and the semifinal had the largest amount of close matches. Before analyzing the data, I had assumed that as the tournament advanced, the matches would on average be closer, so it was suprising to be proven wrong. Another notable part of the analysis was that the most common scoreline was 6-5, the “close” outcome. This makes intuitive sense, since the players are all professionals and therefore are fairly close in skill, it is less likely that there would be a blowout victory. However, 6-3 is more common than 6-4, which is an outlier in the general trend of it being more likely for the loser to win a higher amount of legs than a lower amount.</p>
+</section>
+<section id="althams-multiplicative-binomial-distribution-1" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="althams-multiplicative-binomial-distribution-1"><span class="header-section-number">5.2</span> Altham’s Multiplicative Binomial Distribution</h2>
+<p>For each player in the 2024 season, use the number of legs won in each match to compute maximium likelihood estimates for <span class="math inline">\(p\)</span> and <span class="math inline">\(\theta\)</span>.<br>
+<strong>Note</strong>: The “for each” here can be done more efficiently with a function or a loop!</p>
+<ul>
+<li>Create a vector containing the number of legs won by the player. Note sometimes you will need to pull from winner’s legs and sometimes from the loser’s legs.</li>
+<li>Find the MLE for the player using this data. Ensure to report <span class="math inline">\(p\)</span> and <span class="math inline">\(\theta\)</span> for each player in a nicely formatted table.<br>
+<strong>Note:</strong> In Lecture on Monday, we used transformations to restrict how <code>optim()</code> searches the parameter space. For example, here, you might consider <code>p &lt;- 1/(1+exp(-par[1]))</code> and <code>theta &lt;- exp(par[2])</code>.</li>
+<li>Make comments about the MLEs in the context of the standings.</li>
+</ul>
+<p><strong>Solution</strong></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>MLE_calc <span class="ot">=</span> <span class="cf">function</span>(player, p, theta){</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  legs_won <span class="ot">=</span> data3 <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>    <span class="fu">filter</span>(Winner <span class="sc">==</span> player <span class="sc">|</span> Loser <span class="sc">==</span> player) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="fu">mutate</span>(<span class="at">legs =</span> <span class="fu">if_else</span>(Winner <span class="sc">==</span> player, WinnerLegs, LoserLegs)) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>    <span class="fu">pull</span>(legs)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>  neg_loglikelihood <span class="ot">=</span> <span class="cf">function</span>(par) {</span>
+<span id="cb14-7"><a href="#cb14-7"></a>    p <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>par[<span class="dv">1</span>])) <span class="co">#suggested on lab sheet</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>    theta <span class="ot">=</span> <span class="fu">exp</span>(par[<span class="dv">2</span>])  <span class="co">#suggested on lab sheet </span></span>
+<span id="cb14-9"><a href="#cb14-9"></a>    <span class="sc">-</span><span class="fu">loglikelihood</span>(<span class="at">x =</span> legs_won, <span class="at">p =</span> p, <span class="at">theta =</span> theta, <span class="at">n=</span><span class="dv">11</span>) <span class="co"># as mentioned earlier,</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a>    <span class="co"># use negative because optim minimizes the function</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>  }</span>
+<span id="cb14-12"><a href="#cb14-12"></a>  <span class="co"># I chose (.5, 1) as my initial guess because</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a>  <span class="co"># I thought that those values were nice middle grounds, since p has a maximum value of 1 and minimum of 0. </span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>  <span class="co"># When theta = 1, the distribution is the binomial, so I chose that as an intial guess.</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>  mle <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">c</span>(.<span class="dv">5</span>, <span class="dv">1</span>), <span class="at">fn =</span> neg_loglikelihood)</span>
+<span id="cb14-16"><a href="#cb14-16"></a>  p_mle <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>mle<span class="sc">$</span>par[<span class="dv">1</span>])) <span class="co"># translate to p </span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>  theta_mle <span class="ot">=</span> <span class="fu">exp</span>(mle<span class="sc">$</span>par[<span class="dv">2</span>]) <span class="co">#translate to theta</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">player =</span> player, <span class="at">p =</span> <span class="fu">round</span>(p_mle, <span class="dv">4</span>), <span class="at">theta =</span> <span class="fu">round</span>(theta_mle, <span class="dv">4</span>)))</span>
+<span id="cb14-19"><a href="#cb14-19"></a>}</span>
+<span id="cb14-20"><a href="#cb14-20"></a>players <span class="ot">=</span><span class="fu">unique</span>(<span class="fu">c</span>(data3<span class="sc">$</span>Winner, data3<span class="sc">$</span>Loser)) <span class="co">#creates a list of players</span></span>
+<span id="cb14-21"><a href="#cb14-21"></a>results <span class="ot">=</span> <span class="fu">map</span>(players, MLE_calc) <span class="sc">|&gt;</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a>  <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-23"><a href="#cb14-23"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="fu">as.numeric</span>(p), <span class="at">theta =</span> <span class="fu">as.numeric</span>(theta)) <span class="sc">|&gt;</span></span>
+<span id="cb14-24"><a href="#cb14-24"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(p)) <span class="co">#order players by descending p </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p></p>
+<div class="cell" data-tbl-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(results,</span>
+<span id="cb15-2"><a href="#cb15-2"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Player"</span>, <span class="st">"p"</span>, <span class="st">"Theta "</span>),</span>
+<span id="cb15-3"><a href="#cb15-3"></a>             <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-binom-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-binom-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: MLEs for each player
+</figcaption>
+<div aria-describedby="tbl-binom-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Player</th>
+<th style="text-align: right;">p</th>
+<th style="text-align: right;">Theta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Luke Littler</td>
+<td style="text-align: right;">0.4691</td>
+<td style="text-align: right;">1.3160</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Luke Humphries</td>
+<td style="text-align: right;">0.4607</td>
+<td style="text-align: right;">1.2047</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Michael van Gerwen</td>
+<td style="text-align: right;">0.4313</td>
+<td style="text-align: right;">1.0231</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Michael Smith</td>
+<td style="text-align: right;">0.4259</td>
+<td style="text-align: right;">1.0474</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nathan Aspinall</td>
+<td style="text-align: right;">0.4030</td>
+<td style="text-align: right;">1.1863</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rob Cross</td>
+<td style="text-align: right;">0.3954</td>
+<td style="text-align: right;">1.0142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gerwyn Price</td>
+<td style="text-align: right;">0.3826</td>
+<td style="text-align: right;">1.0196</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Peter Wright</td>
+<td style="text-align: right;">0.3171</td>
+<td style="text-align: right;">0.9891</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p></p>
+<p>The actual standings are very similar to the predicted standings by the MLE. Luke Littler has the highest p value, and is first in the actual standings. The bottom three in p value are also the bottom three in the actual standings. As well as this, Michael Smith is fourth in both standings. These similarities between the actual rankings and the model suggest that Altham’s Multiplicative Binomial fits the data well.</p>
+</section>
+<section id="althams-multiplicative-beta-binomial-distribution-1" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="althams-multiplicative-beta-binomial-distribution-1"><span class="header-section-number">5.3</span> Altham’s Multiplicative Beta Binomial Distribution</h2>
+<p>For each player in the 2024 season, use the number of legs won in each match to compute maxmium likelihood estimates for <span class="math inline">\(p\)</span> and <span class="math inline">\(\theta\)</span>.<br>
+<strong>Note</strong>: The “for each” here can be done more efficiently with a function or a loop!</p>
+<ul>
+<li>Create a vector containing the number of legs won by the player. Note sometimes you will need to pull from winner’s legs and sometimes from the loser’s legs.</li>
+<li>Find the MLEs for the player using this data. Ensure to report <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\theta\)</span> for each player in a nicely formatted table.<br>
+<strong>Note 1</strong>: Due to the computational complexity of <code>integrate()</code>, you should compute the logged probability for <code>0:6</code> once and add them according to the data in each player’s vector. <strong>Note 2</strong>: In Lecture on Monday, we used transformations to restrict how <code>optim()</code> searches the parameter space.</li>
+<li>Plot the underlying Beta(<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>) distribution for each player.<br>
+<strong>Note</strong>: Add the mean and variance of the Beta to the table of MLEs. Recall <span class="math display">\[\begin{align*}
+E(X)   &amp;= \frac{\alpha}{\alpha+\beta}\\
+sd(X) &amp;= \sqrt{\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}}
+\end{align*}\]</span></li>
+<li>Make comments about the MLEs in the context of the standings.<br>
+<strong>Note</strong>: The players alternate who throws first in a leg has the mathematical “head start” to reach a finish before their opponent can take another turn. Players alternate who throws first with each leg.</li>
+</ul>
+<p><strong>Solution</strong></p>
+<p>First, I start by using the daltbbinom function given above. Then, I use the same loglikelihood function as before, but replace the daltbinom() call with a call to daltbbinom(), since this is now for Altham’s Beta Binomial.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>loglikelihood_bb <span class="ot">=</span> <span class="cf">function</span>(x, size, theta, alpha, beta) {</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  sum<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x))</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    sum <span class="ot">=</span>sum <span class="sc">+</span> <span class="fu">log</span>(<span class="fu">daltbbinom</span>(<span class="at">x =</span> x[i], <span class="at">theta =</span> theta, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta))</span>
+<span id="cb16-5"><a href="#cb16-5"></a>  sum <span class="ot">=</span> <span class="fu">as.numeric</span>(sum)</span>
+<span id="cb16-6"><a href="#cb16-6"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># The MLE function is majority the same, with changes made to </span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># get the new variables alpha and beta</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>MLE_calc_bb <span class="ot">=</span> <span class="cf">function</span>(player) {</span>
+<span id="cb17-4"><a href="#cb17-4"></a>  legs_won <span class="ot">=</span>data3 <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>    <span class="fu">filter</span>(Winner <span class="sc">==</span> player <span class="sc">|</span> Loser <span class="sc">==</span> player) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a>    <span class="fu">mutate</span>(<span class="at">legs =</span> <span class="fu">if_else</span>(Winner <span class="sc">==</span> player, WinnerLegs, LoserLegs)) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a>    <span class="fu">pull</span>(<span class="st">"legs"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>  neg_loglikelihood <span class="ot">=</span> <span class="cf">function</span>(par) {</span>
+<span id="cb17-9"><a href="#cb17-9"></a>    theta <span class="ot">=</span> <span class="fu">exp</span>(par[<span class="dv">1</span>])</span>
+<span id="cb17-10"><a href="#cb17-10"></a>    alpha <span class="ot">=</span> <span class="fu">exp</span>(par[<span class="dv">2</span>])</span>
+<span id="cb17-11"><a href="#cb17-11"></a>    beta <span class="ot">=</span><span class="fu">exp</span>(par[<span class="dv">3</span>])</span>
+<span id="cb17-12"><a href="#cb17-12"></a>    result <span class="ot">=</span> <span class="sc">-</span><span class="fu">loglikelihood_bb</span>(<span class="at">x =</span> legs_won, <span class="at">theta =</span> theta, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta)</span>
+<span id="cb17-13"><a href="#cb17-13"></a>  }</span>
+<span id="cb17-14"><a href="#cb17-14"></a>  <span class="co"># I chose (0.5,0.5,0.5) as my intial guess because it is close</span></span>
+<span id="cb17-15"><a href="#cb17-15"></a>  <span class="co"># to the origin, but since alpha and beta cannot be negative,</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a>  <span class="co"># I wanted to be closer to the potential values.</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a>  mle<span class="ot">=</span><span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">fn =</span> neg_loglikelihood)</span>
+<span id="cb17-18"><a href="#cb17-18"></a>  theta_mle<span class="ot">=</span> <span class="fu">exp</span>(mle<span class="sc">$</span>par[<span class="dv">1</span>])</span>
+<span id="cb17-19"><a href="#cb17-19"></a>  alpha_mle<span class="ot">=</span> <span class="fu">exp</span>(mle<span class="sc">$</span>par[<span class="dv">2</span>])</span>
+<span id="cb17-20"><a href="#cb17-20"></a>  beta_mle<span class="ot">=</span> <span class="fu">exp</span>(mle<span class="sc">$</span>par[<span class="dv">3</span>])</span>
+<span id="cb17-21"><a href="#cb17-21"></a>  mean <span class="ot">=</span>alpha_mle<span class="sc">/</span>(alpha_mle <span class="sc">+</span> beta_mle)</span>
+<span id="cb17-22"><a href="#cb17-22"></a>  var <span class="ot">=</span>(alpha_mle<span class="sc">*</span>beta_mle)<span class="sc">/</span>((alpha_mle<span class="sc">+</span>beta_mle)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span>(alpha_mle<span class="sc">+</span>beta_mle<span class="sc">+</span><span class="dv">1</span>))</span>
+<span id="cb17-23"><a href="#cb17-23"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">player =</span> player,</span>
+<span id="cb17-24"><a href="#cb17-24"></a>  <span class="co">#I was having issues displaying and fitting the data. </span></span>
+<span id="cb17-25"><a href="#cb17-25"></a>  <span class="co">#Converting to numeric and rounding the numbers fixed these problems.</span></span>
+<span id="cb17-26"><a href="#cb17-26"></a>           <span class="at">theta =</span> <span class="fu">as.numeric</span>(<span class="fu">round</span>(theta_mle, <span class="dv">4</span>)),</span>
+<span id="cb17-27"><a href="#cb17-27"></a>           <span class="at">alpha =</span> <span class="fu">as.numeric</span>(<span class="fu">round</span>(alpha_mle, <span class="dv">4</span>)),</span>
+<span id="cb17-28"><a href="#cb17-28"></a>           <span class="at">beta =</span> <span class="fu">as.numeric</span>(<span class="fu">round</span>(beta_mle,  <span class="dv">4</span>)),</span>
+<span id="cb17-29"><a href="#cb17-29"></a>           <span class="at">mean =</span> <span class="fu">as.numeric</span>(<span class="fu">round</span>(mean, <span class="dv">4</span>)),</span>
+<span id="cb17-30"><a href="#cb17-30"></a>           <span class="at">var =</span> <span class="fu">as.numeric</span>(<span class="fu">round</span>(var, <span class="dv">4</span>))))</span>
+<span id="cb17-31"><a href="#cb17-31"></a>}</span>
+<span id="cb17-32"><a href="#cb17-32"></a>players <span class="ot">=</span><span class="fu">unique</span>(<span class="fu">c</span>(data3<span class="sc">$</span>Winner, data3<span class="sc">$</span>Loser))</span>
+<span id="cb17-33"><a href="#cb17-33"></a>results_bb <span class="ot">=</span><span class="fu">map</span>(players, MLE_calc_bb) <span class="sc">|&gt;</span></span>
+<span id="cb17-34"><a href="#cb17-34"></a>  <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span> <span class="co">#this combines all the player data into one data frame</span></span>
+<span id="cb17-35"><a href="#cb17-35"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p>After sorting the data by different variables, the variable that most closely corresponded with the actual standings was the mean, which is why I am using it in the final submission. In this context, the mean corresponds to the probability of the player winning a leg. Most of the alpha and beta values have similar magnitudes to eachother for different players, however one outlier is Peter Wright. Wright has a beta 10 times larger than anyone else, and his alpha is nearly twice the next largest value. Wright is a consistent outlier in this data, since his mean is the lowest by .2 - a huge difference in leg win probability. His variance is also small, suggesting that the model is confident in it’s assessment of Wright’s skills. This accurately reflects his poor performance in the tournament. Only two players had a theta value of less than one - Luke Humphries and Peter Wright. This means that they were more likely to lose a leg after winning one, while everyone else was more likely to win a leg after winning previously. This makes sense for Wright, since he was the worst player this season, he lost most of his legs.</p>
+<p></p>
+<div class="cell" data-tbl-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(results_bb, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Player"</span>, <span class="st">"theta"</span>, <span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"mean"</span>, <span class="st">"variance"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-beta-binom" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-beta-binom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: MLE for each player in the Altham’s Beta Binomial Distribution
+</figcaption>
+<div aria-describedby="tbl-beta-binom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Player</th>
+<th style="text-align: left;">theta</th>
+<th style="text-align: left;">alpha</th>
+<th style="text-align: left;">beta</th>
+<th style="text-align: left;">mean</th>
+<th style="text-align: left;">variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Luke Littler</td>
+<td style="text-align: left;">1.4598</td>
+<td style="text-align: left;">1.9558</td>
+<td style="text-align: left;">0.1365</td>
+<td style="text-align: left;">0.9347</td>
+<td style="text-align: left;">0.0197</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nathan Aspinall</td>
+<td style="text-align: left;">1.6421</td>
+<td style="text-align: left;">1.8892</td>
+<td style="text-align: left;">0.2152</td>
+<td style="text-align: left;">0.8977</td>
+<td style="text-align: left;">0.0296</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Humphries</td>
+<td style="text-align: left;">0.9779</td>
+<td style="text-align: left;">3.0203</td>
+<td style="text-align: left;">0.4254</td>
+<td style="text-align: left;">0.8765</td>
+<td style="text-align: left;">0.0243</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Michael Smith</td>
+<td style="text-align: left;">1.5111</td>
+<td style="text-align: left;">0.8514</td>
+<td style="text-align: left;">0.1492</td>
+<td style="text-align: left;">0.8509</td>
+<td style="text-align: left;">0.0634</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Michael van Gerwen</td>
+<td style="text-align: left;">1.496</td>
+<td style="text-align: left;">0.7406</td>
+<td style="text-align: left;">0.1331</td>
+<td style="text-align: left;">0.8476</td>
+<td style="text-align: left;">0.0689</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rob Cross</td>
+<td style="text-align: left;">1.5719</td>
+<td style="text-align: left;">0.8575</td>
+<td style="text-align: left;">0.2294</td>
+<td style="text-align: left;">0.7889</td>
+<td style="text-align: left;">0.0798</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gerwyn Price</td>
+<td style="text-align: left;">1.6394</td>
+<td style="text-align: left;">0.8919</td>
+<td style="text-align: left;">0.2597</td>
+<td style="text-align: left;">0.7745</td>
+<td style="text-align: left;">0.0812</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Peter Wright</td>
+<td style="text-align: left;">0.9521</td>
+<td style="text-align: left;">5.4633</td>
+<td style="text-align: left;">4.2975</td>
+<td style="text-align: left;">0.5597</td>
+<td style="text-align: left;">0.0229</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p></p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>plot_beta <span class="ot">=</span> <span class="cf">function</span>(player_name) {</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  player_dat <span class="ot">=</span> <span class="fu">filter</span>(results_bb, player <span class="sc">==</span> player_name)</span>
+<span id="cb19-4"><a href="#cb19-4"></a>  beta_dat<span class="ot">=</span> <span class="fu">tibble</span>(</span>
+<span id="cb19-5"><a href="#cb19-5"></a>    <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
+<span id="cb19-6"><a href="#cb19-6"></a>    <span class="at">density =</span> <span class="fu">dbeta</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>), <span class="at">shape1 =</span> <span class="fu">as.numeric</span>(player_dat<span class="sc">$</span>alpha), <span class="at">shape2 =</span> <span class="fu">as.numeric</span>(player_dat<span class="sc">$</span>beta))</span>
+<span id="cb19-7"><a href="#cb19-7"></a>  )</span>
+<span id="cb19-8"><a href="#cb19-8"></a>  <span class="co"># plot</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="fu">ggplot</span>(beta_dat, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> density)) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"p"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12"></a>         <span class="at">y  =</span> <span class="st">"Density"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13"></a>         <span class="at">title =</span> player_name) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb19-15"><a href="#cb19-15"></a>}</span>
+<span id="cb19-16"><a href="#cb19-16"></a></span>
+<span id="cb19-17"><a href="#cb19-17"></a><span class="co"># example usage</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a>littler <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Luke Littler"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19"></a>humphries <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Luke Humphries"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20"></a>gerwen <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Michael van Gerwen"</span>)</span>
+<span id="cb19-21"><a href="#cb19-21"></a>smith <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Michael Smith"</span>)</span>
+<span id="cb19-22"><a href="#cb19-22"></a>aspinall <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Nathan Aspinall"</span>)</span>
+<span id="cb19-23"><a href="#cb19-23"></a>cross <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Rob Cross"</span>)</span>
+<span id="cb19-24"><a href="#cb19-24"></a>price <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Gerwyn Price"</span>)</span>
+<span id="cb19-25"><a href="#cb19-25"></a>wright <span class="ot">=</span> <span class="fu">plot_beta</span>(<span class="st">"Peter Wright"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p></p>
+<p></p>
+<div class="cell" data-layout-align="center" data-scale="80%">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># using the method I did in the other lab to make them next to each other instead of facet_wrap</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>littler <span class="sc">+</span> humphries <span class="sc">+</span> gerwen <span class="sc">+</span> smith <span class="sc">+</span> aspinall <span class="sc">+</span> cross <span class="sc">+</span> price <span class="sc">+</span> wright</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-beta-graphs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-beta-graphs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Graphs of the distribution of p for each player
+</figcaption>
+<div aria-describedby="fig-beta-graphs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Lab10WriteUp_files/figure-html/fig-beta-graphs-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>7 out of 8 of the player graphs look the same and are heavily right skewed towards a p value of one, with the only exception being Peter Wright. His distribution looks gaussian, likely due to his relatively small win probability that is not as large as the others.</p>
+</section>
+<section id="executive-summary" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="executive-summary"><span class="header-section-number">5.4</span> Executive Summary</h2>
+<p>Summarize the work you’ve done here to provide a brief (200-300 word) data-driven summary of the 2024 Premier League season using your work in Lab 10. Your summary should be professional, clear, and all claims should be corroborated with statistical support.</p>
+<p><strong>Solution</strong></p>
+<p>The 2024 Premier League could be modeled by the Altham’s Binomial Distribution, or Altham’s Beta Binomial Distribution with a fair degree of accuracy. Both distributions predicted the same final standings, and had 5 out of the 8 players in the same spots they were at in the real standings. This suggests that single leg win probability is predictive of overall success in the season. In the Beta Binomial distribution, the theta values calculated were above one for all players except Peter Wright and Luke Humphries. This suggests that Wright and Humphries were more likely to lose after winning the previous leg, while every other player was more likely to win after winning the previous leg. In the Binomial distribution, however, only Peter Wright had a theta below one. He also had the lowest single leg win probability.</p>
+<p>Looking at the variances, Luke Littler and Peter Wright had the two lowest values. They were also the first and last place finishers, respectively. This means that their leg win probabilities are the most accurately predicted ones by the model, which makes sense, because they were the best/worst players. Wright’s low variance, theta below one and low single leg win probability can all be attributed to his very poor performance relative to the rest of the players - he lost 43 more legs than he won.</p>
+<p>Looking at overall league match result distributions, the majority of matches are won either 6-5 or 6-4, which suggests that the skill of the players is comparable.</p>
+<p>In conclusion, the k</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

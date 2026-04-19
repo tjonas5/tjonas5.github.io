@@ -1,0 +1,525 @@
+---
+title: Lab Ten -- Point Estimation # Title of the document
+
+# Bibliography Details
+bibliography: Lab10References.bib  # Name of bib file in the same folder 
+bibliographystyle: apa            # Bibliography style
+
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+# Below will do html by default. To render the entire project
+# Use the following code:
+# quarto::quarto_render("Lab10WriteUp.qmd")
+format:
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+  html:       # Specify HTML formatting options 
+    number-sections: true      # Number Sections
+    code-fold: true            # Button to show code
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables and figures
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(patchwork)
+```
+
+**Tips**
+
+* Complete the tasks below. Make sure to start your solutions in on a new line that starts with "**Solution**:".
+* Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab *much* easier.
+* Make sure to use "enter" to make your code readable, so it doesn't run off the page. I switched the Quarto document to automatically render to .pdf, so you can see what you're submitting by default. You can switch back for the highlighting by moving the html block above the pdf block in the YAML header.
+* Don't forget that you can copy-and-paste code when you're doing something similar as we did in class!
+* Make sure to plot all computed probabilities. This is good `ggplot` practice AND will help make sure you don't make a mistake when computing the probability.
+
+
+# Lab 8 Notes
+
+##  Altham's Multiplicative Binomial Distribution
+
+The PMF for Altham's Multiplicative Binomial Distribution is
+$$f_X(x) = \frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}I(x \in \{0, 1, ..., n\})$$
+where
+$$c = \sum_{i=0}^n {n \choose i} p^i (1-p)^{n-i} \theta^{i(n-i)}.$$ 
+Just so we start on the same page, I have included my `R` function for computing probability using this distribution.
+
+```{r}
+daltbinom <- function(x, size, prob, theta){
+  normalizing.constant <- 0
+  for(j in 0:size){
+    normalizing.constant <- normalizing.constant + 
+      choose(size, j) * prob^j * (1-prob)^(size-j) * theta^(j*(size-j))
+  }
+  # Probability Mass at x=x
+  (1/normalizing.constant) *
+    choose(size, x) * prob^x * (1-prob)^(size-x) * theta^(x*(size-x)) *
+      (x>=0)*(x<=size)
+}
+```
+
+# Altham's Multiplicative Beta Binomial Distribution
+The PMF for Altham's Multiplicative Beta Binomial Distribution is
+$$f_X(x) = \left[\int_{0}^1 \left(\frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}\right)\left(\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} p^{\alpha-1}(1-p)^{\beta-1}\right) dp\right]I(x \in \{0, 1, ..., n\})$$
+
+Just so we start on the same page, I have included my `R` function for computing probability using this distribution.
+```{r}
+daltbbinom.single <- function(x, size, alpha, beta, theta){
+    integrand <- function(p) {
+    sapply(p, # integrate will pass in a vector, so we use sapply to apply the following
+           function(p_val){
+             # f(x|p) * f(p|alpha, beta)
+             daltbinom(x, size, p_val, theta) * dbeta(p_val, alpha, beta)
+           }
+    )
+  }
+  # Probability Mass at x=x
+  # integrate(integrand, lower = 0, upper = 1)$value * (x>=0)*(x<=size)
+  # I shrink the bounds below to avoid log(0)=-infinty
+  # I use try() to catch when there is an error and avoid crashing
+  res <- try(integrate(integrand, lower = 1e-7, upper = 1 - 1e-7)$value * 
+                  (x>=0)*(x<=size), 
+             silent = TRUE)
+  # If there is an error, return a near-zero probability
+  if(inherits(res, "try-error")) return(0.1^6)
+  
+  res
+}
+# Write a function that works on a vector
+daltbbinom <- function(x, size, alpha, beta, theta){
+  sapply(X=x, FUN=daltbbinom.single, size=size, alpha=alpha, beta=beta, theta=theta)
+}
+```
+
+# Question 1
+
+In Lab 8, we use Altham's Multiplicative Binomial Distribution. Your job was to interpret the impact of $\theta$ in that equation. In this lab, we will model the number of legs won in a best of eleven (first to six) match. 
+
+To help us think about the interpretation, something that was challenging before, let's try something a little more manageable.
+
+## Part a
+Suppose a player has a 50\% chance of winning a specific leg, that is let $p=0.50$. Let's look at the probability they win ($x=6$) legs in the match. Compute this probability over a sequence from $\theta=0.5$ to $\theta=1.5$ and plot it using a line where the $x$-axis is $\theta$ and the $y$-axis is $P(X=6)$.
+
+**Solution**
+
+```{r}
+library(tidyverse)
+p=.5 
+x = 6
+theta= seq(.5, 1.5, .001)
+data = daltbinom(x = x, size = 11, prob = p, theta = theta)
+ggdat= tibble(theta = theta) |>
+ mutate(Probability = data)
+```
+
+```{r}
+#| label: fig-line-theta-prob
+#| fig-cap: "P(X=6) for different values of theta."
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+ggplot(data = ggdat) +
+  geom_line(aes(x = theta, y = Probability))+
+  theme_bw() + 
+    labs(x = "Theta",
+        y="P(X=6)")
+```
+
+## Part b
+Now, plot Altham's Multiplicative Binomial Distribution under the same parameters with $\theta=0.50$, $\theta=1$, and $\theta=1.5$. Use `ncol=1` in `facet_wrap()` to plot the PMFs in a single column for comparing.
+
+**Solution** 
+```{r}
+x=0:11
+theta_.5_data=daltbinom(x=x, size=11, prob = .5, theta = .5)
+theta_1_data=daltbinom(x=x, size=11, prob=.5, theta = 1)
+theta_1.5_data=daltbinom(x=x, size=11, prob=.5, theta = 1.5)
+ggdat= tibble(Games_won = x) |>
+ mutate(Theta_.5 = theta_.5_data, Theta_1=theta_1_data, Theta_1.5=theta_1.5_data)
+```
+
+```{r}
+#| label: fig-line-all-theta-values-prob
+#| fig-cap: "P(X=6) graphs for theta values .5, 1, and 1.5 "
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+library(patchwork)
+theta.5plot= ggplot(data = ggdat) +
+  geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_.5))+
+  theme_bw() + 
+    labs(x = "Games won",
+        y="P(X=6) when theta = .5")
+theta1plot = ggplot(data = ggdat) +
+  geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_1))+
+  theme_bw() + 
+    labs(x = "Games won",
+        y="P(X=6) when theta = 1")
+theta1.5plot = ggplot(data = ggdat) +
+  geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_1.5))+
+  theme_bw() + 
+    labs(x = "Games won",
+        y="P(X=6) when theta = 1.5")
+
+theta.5plot+theta1plot+theta1.5plot
+```
+
+## Part c
+What is your best assessment of what $\theta$ is doing in this setting. Consider when a 6-0 blowout is most likely, and when a 5-6 nail-biter is most likely. Note here we should treat the match as a fixed $n=11$ as we did for $n=3$ in Lab 8.\
+**Note:** In lab 8, we saw that small $\theta$ meant wins came in bunches (clumped together), so there were more 2-0 wins in a best of three series.
+
+**Solution**
+
+In this setting, an increasing theta is making it more likely that there is a close outcome. We can see this because when theta = .5, the probability of a player winning 0 or 11 games (hypothetically) is much larger than the probability of a close match, such as one ending with the score of 6-5. Conversely, when theta = 1.5, it is much more likely for the score to be 6-5 than it is 0-11. 
+
+# Question 2
+
+## Part a
+Altham's Multiplicative Binomial Distribution does not typically simplify to the clean $E(X)=np$ seen in the Binomial distribution, unless $\theta = 1$. Write out the expression that would need to be solved to find $E(X^k)$, and then write a function that computes it given the proposed parameter values $p$ (`prob`) and $\theta$ (`theta`).
+
+**Solution**
+Here is the expression to find $E(X^k)$.
+$$E(x^k) = \sum_{i=-\infty}^{\infty} x^k \frac{1}{c} {n \choose x} p^x (1-p)^{n-x} \theta^{x(n-x)}I(x \in \{0, 1, ..., n\})$$
+
+Here is the code to compute it. This function uses the given daltbinom from previously.
+```{r}
+genaltbinom = function(p, theta, size){
+  x=1:size
+  n=11
+  sum=0
+  for (i in x)
+    sum = sum + daltbinom(x=1, p=p, theta=theta, n=n)
+}
+```
+
+## Part b
+Describe how you can use your answer to part a to find Method of Moments estimates for the parameters $p$ and $\theta$ for Altham's Multiplicative Binomial Distribution based on data.
+
+**Solution**
+
+When given data, we can calculate the mean of the data and the mean of the data squared, which are the sample moments. Using my function, it is possible to calculate the population moments, which are the expected values of the random variable of interest. Setting the first sample moment equal to the first population moment and the second sample moment equal to the second population moment, we would be able to solve the system of equations and find estimates of p and theta.
+
+## Part c
+Write a function that computes the log-likelihood for Altham's Multiplicative Binomial Distribution, given data (`x`) and proposed parameter values $p$ (`prob`) and $\theta$ (`theta`).
+
+**Solution**
+Here is the code for that function. 
+
+```{r}
+loglikelihood = function(x, p, theta, n = 6) {
+  sum = 0
+  for (i in 1:length(x))
+    sum = sum + log(daltbinom(x = x[i], p = p, theta = theta, size=11 ))
+  return(sum)
+}
+```
+
+## Part d
+Describe how you can use your answer to part c to find Maximum Likelihood estimates for the parameters $p$ and $\theta$ for Altham's Multiplicative Binomial Distribution based on data.
+
+**Solution**
+
+As discussed in class, we can use the optim() function in r to solve for the minimum values. Since optim finds the minimum, we use the negative function so it finds the maximum. This will then give us the optimal values of p and theta to maximize the function. This maximization yields the most probable model given the data.
+
+# Lab 10
+Peter "Snakebite" Wright is a two-time Professional Darts Corporation World Champion (2020, 2022) and a former World No. 1. He is one of the sport's most decorated players, winning nearly 50 PDC titles including the World Matchplay, UK Open, and multiple European Championships. 
+
+In 2024, he made The Premier League -- a league involving the eight best players that runs every Thursday night from February to May. In this season, he won two of eighteen matches, securing only four points. The spread in legs won was -43, meaning he lost 43 more legs than he won. This performance was rather quite bad. He was soundly trounced in almost all his match ups. 
+
+
+The 2024 standings are below:
+
+| Rank | Player             |
+|:-----|:-------------------|
+| 1    |Luke Littler        |
+| 2    |Luke Humphries      |
+| 3    |Michael van Gerwen  |
+| 4    |Michael Smith       |
+| 5    |Nathan Aspinall     |
+| 6    |Rob Cross           |
+| 7    |Gerwyn Price        |
+| 8    |Peter Wright        |
+
+
+## Summarize the 2024 Data
+
+In `pdc2024.csv`, I have provided the data for the 2024 Premier League season. There are a few data cleaning steps to consider.
+
+  * Remove any matches with no `Score` (e.g., a bye or walkover)
+  * Nights 1 through 16 are best of 11 (first to 6), but the playoffs are extended. For consistency, keep nights 1 through 16 only.
+  * Make two columns `WinnerLegs` and `LoserLegs` that keep track of the number of legs each player has won
+  
+  Summarize the data. What do the data tell us about the breakdown of the results?
+
+**Solution**
+
+```{r}
+raw.data = read_csv('/Users/tobijonas/lab-10-point-estimation-tjonas5/pdc2024.csv')
+data2= filter(raw.data, as.numeric(Night) < 17) |> 
+        separate_wider_delim(Score, delim="-", names=c("WinnerLegs", "LoserLegs"), too_few = "debug")
+data2 = data2 |> mutate(LoserLegs = as.numeric(LoserLegs),
+              WinnerLegs = as.numeric(WinnerLegs))
+              
+data3=na.omit(data2)
+data3 |>
+  summarise(
+    total_matches = n(),
+    avg_loser_legs = mean(LoserLegs, na.rm = T),
+    pct_close = mean(6 - LoserLegs == 1, na.rm = T)  # close here means decided by 1 leg
+  )
+data3 |>
+  group_by(Round) |>
+  summarise(
+    match_count  = n(),
+    # no need to calculate average winner legs since it is always six
+    avg_loser_legs  = mean(LoserLegs, na.rm = T),
+    pct_close   = mean(6 - LoserLegs == 1, na.rm = T)
+  )
+```
+
+
+
+
+```{r}
+#| label: scoreline-distribution
+#| fig-cap: "Distribution of Scorelines"
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+data3 |>
+  mutate(Score = paste0(WinnerLegs, "-", LoserLegs)) |>
+  count(Score) |>
+  ggplot(aes(x = reorder(Score, n), y = n)) +
+  geom_bar(stat = "identity", fill = "darkorchid2") +
+  coord_flip() +
+  labs(x = "Scoreline", y = "Frequency")
+```
+
+This data tells us that most matches are decided by more than one leg, and as such are not "close". It also tells us that the round of the tournament has an effect on what percent of matches are close. Interestingly, the final was the least close of the three rounds, while the quarterfinal was the second closest round, and the semifinal had the largest amount of close matches. Before analyzing the data, I had assumed that as the tournament advanced, the matches would on average be closer, so it was suprising to be proven wrong. Another notable part of the analysis was that the most common scoreline was 6-5, the "close" outcome. This makes intuitive sense, since the players are all professionals and therefore are fairly close in skill, it is less likely that there would be a blowout victory. However, 6-3 is more common than 6-4, which is an outlier in the general trend of it being more likely for the loser to win a higher amount of legs than a lower amount.
+
+## Altham's Multiplicative Binomial Distribution
+For each player in the 2024 season, use the number of legs won in each match to compute maximium likelihood estimates for $p$ and $\theta$. \
+**Note**: The "for each" here can be done more efficiently with a function or a loop!
+
+* Create a vector containing the number of legs won by the player. Note sometimes you will need to pull from winner's legs and sometimes from the loser's legs.
+* Find the MLE for the player using this data. Ensure to report $p$ and $\theta$ for each player in a nicely formatted table.\
+**Note:** In Lecture on Monday, we used transformations to restrict how `optim()` searches the parameter space. For example, here, you might consider
+`p <- 1/(1+exp(-par[1]))` and `theta <- exp(par[2])`.
+* Make comments about the MLEs in the context of the standings.
+
+**Solution**
+
+```{r}
+
+MLE_calc = function(player, p, theta){
+  legs_won = data3 |>
+    filter(Winner == player | Loser == player) |>
+    mutate(legs = if_else(Winner == player, WinnerLegs, LoserLegs)) |>
+    pull(legs)
+  neg_loglikelihood = function(par) {
+    p = 1/(1 + exp(-par[1])) #suggested on lab sheet
+    theta = exp(par[2])  #suggested on lab sheet 
+    -loglikelihood(x = legs_won, p = p, theta = theta, n=11) # as mentioned earlier,
+    # use negative because optim minimizes the function
+  }
+  # I chose (.5, 1) as my initial guess because
+  # I thought that those values were nice middle grounds, since p has a maximum value of 1 and minimum of 0. 
+  # When theta = 1, the distribution is the binomial, so I chose that as an intial guess.
+  mle = optim(par = c(.5, 1), fn = neg_loglikelihood)
+  p_mle = 1/(1 + exp(-mle$par[1])) # translate to p 
+  theta_mle = exp(mle$par[2]) #translate to theta
+  return(c(player = player, p = round(p_mle, 4), theta = round(theta_mle, 4)))
+}
+players =unique(c(data3$Winner, data3$Loser)) #creates a list of players
+results = map(players, MLE_calc) |>
+  bind_rows() |>
+  mutate(p = as.numeric(p), theta = as.numeric(theta)) |>
+  arrange(desc(p)) #order players by descending p 
+```
+```{r}
+#| label: tbl-binom-results
+#| tbl-cap: "MLEs for each player"
+#| tbl-align: "center"
+#| size: scriptsize
+knitr::kable(results,
+             col.names = c("Player", "p", "Theta "),
+             digits = 4)
+```
+
+The actual standings are very similar to the predicted standings by the MLE. Luke Littler has the highest p value, and is first in the actual standings. The bottom three in p value are also the bottom three in the actual standings. As well as this, Michael Smith is fourth in both standings. These similarities between the actual rankings and the model suggest that Altham's Multiplicative Binomial fits the data well. 
+
+## Altham's Multiplicative Beta Binomial Distribution
+
+For each player in the 2024 season, use the number of legs won in each match to compute maxmium likelihood estimates for $p$ and $\theta$.\
+**Note**: The "for each" here can be done more efficiently with a function or a loop!
+
+* Create a vector containing the number of legs won by the player. Note sometimes you will need to pull from winner's legs and sometimes from the loser's legs.
+* Find the MLEs for the player using this data. Ensure to report $\alpha$, $\beta$, and $\theta$ for each player in a nicely formatted table.\
+**Note 1**: Due to the computational complexity of `integrate()`, you should compute the logged probability for `0:6` once and add them according to the data in each player's vector.
+**Note 2**: In Lecture on Monday, we used transformations to restrict how `optim()` searches the parameter space.
+* Plot the underlying Beta($\alpha$, $\beta$) distribution for each player. \
+**Note**: Add the mean and variance of the Beta to the table of MLEs. Recall
+\begin{align*}
+ E(X)   &= \frac{\alpha}{\alpha+\beta}\\
+ sd(X) &= \sqrt{\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}}
+\end{align*}
+* Make comments about the MLEs in the context of the standings.\
+**Note**: The players alternate who throws first in a leg has the mathematical "head start" to reach a finish before their opponent can take another turn. Players alternate who throws first with each leg.
+
+**Solution**
+
+
+First, I start by using the daltbbinom function given above. Then, I use the same loglikelihood function as before, but replace the daltbinom() call with a call to daltbbinom(), since this is now for Altham's Beta Binomial. 
+```{r}
+loglikelihood_bb = function(x, size, theta, alpha, beta) {
+  sum=0
+  for (i in 1:length(x))
+    sum =sum + log(daltbbinom(x = x[i], theta = theta, size = 6, alpha = alpha, beta = beta))
+  sum = as.numeric(sum)
+}
+```
+
+```{r}
+# The MLE function is majority the same, with changes made to 
+# get the new variables alpha and beta
+MLE_calc_bb = function(player) {
+  legs_won =data3 |>
+    filter(Winner == player | Loser == player) |>
+    mutate(legs = if_else(Winner == player, WinnerLegs, LoserLegs)) |>
+    pull("legs")
+  neg_loglikelihood = function(par) {
+    theta = exp(par[1])
+    alpha = exp(par[2])
+    beta =exp(par[3])
+    result = -loglikelihood_bb(x = legs_won, theta = theta, size = 6, alpha = alpha, beta = beta)
+  }
+  # I chose (0.5,0.5,0.5) as my intial guess because it is close
+  # to the origin, but since alpha and beta cannot be negative,
+  # I wanted to be closer to the potential values.
+  mle=optim(par = c(0.5, 0.5, 0.5), fn = neg_loglikelihood)
+  theta_mle= exp(mle$par[1])
+  alpha_mle= exp(mle$par[2])
+  beta_mle= exp(mle$par[3])
+  mean =alpha_mle/(alpha_mle + beta_mle)
+  var =(alpha_mle*beta_mle)/((alpha_mle+beta_mle)^2 *(alpha_mle+beta_mle+1))
+  return(c(player = player,
+  #I was having issues displaying and fitting the data. 
+  #Converting to numeric and rounding the numbers fixed these problems.
+           theta = as.numeric(round(theta_mle, 4)),
+           alpha = as.numeric(round(alpha_mle, 4)),
+           beta = as.numeric(round(beta_mle,  4)),
+           mean = as.numeric(round(mean, 4)),
+           var = as.numeric(round(var, 4))))
+}
+players =unique(c(data3$Winner, data3$Loser))
+results_bb =map(players, MLE_calc_bb) |>
+  bind_rows() |> #this combines all the player data into one data frame
+  arrange(desc(mean))
+```
+
+
+After sorting the data by different variables, the variable that most closely corresponded with the actual standings was the mean, which is why I am using it in the final submission. In this context, the mean corresponds to the probability of the player winning a leg. Most of the alpha and beta values have similar magnitudes to eachother for different players, however one outlier is Peter Wright. Wright has a beta 10 times larger than anyone else, and his alpha is nearly twice the next largest value. Wright is a consistent outlier in this data, since his mean is the lowest by .2 - a huge difference in leg win probability. His variance is also small, suggesting that the model is confident in it's assessment of Wright's skills. This accurately reflects his poor performance in the tournament. Only two players had a theta value of less than one - Luke Humphries and Peter Wright. This means that they were more likely to lose a leg after winning one, while everyone else was more likely to win a leg after winning previously. This makes sense for Wright, since he was the worst player this season, he lost most of his legs. 
+```{r}
+#| label: tbl-beta-binom
+#| tbl-cap: "MLE for each player in the Altham's Beta Binomial Distribution"
+#| tbl-align: "center"
+#| size: scriptsize
+knitr::kable(results_bb, col.names = c("Player", "theta", "alpha", "beta", "mean", "variance"))
+```
+
+
+```{r}
+library(patchwork)
+plot_beta = function(player_name) {
+  player_dat = filter(results_bb, player == player_name)
+  beta_dat= tibble(
+    x = seq(0, 1, length.out = 1000),
+    density = dbeta(seq(0, 1, length.out = 1000), shape1 = as.numeric(player_dat$alpha), shape2 = as.numeric(player_dat$beta))
+  )
+  # plot
+  ggplot(beta_dat, aes(x = x, y = density)) +
+    geom_line(linewidth = 0.8, colour = "steelblue") +
+    labs(x = "p",
+         y  = "Density",
+         title = player_name) +
+    theme_bw()
+}
+
+# example usage
+littler = plot_beta("Luke Littler")
+humphries = plot_beta("Luke Humphries")
+gerwen = plot_beta("Michael van Gerwen")
+smith = plot_beta("Michael Smith")
+aspinall = plot_beta("Nathan Aspinall")
+cross = plot_beta("Rob Cross")
+price = plot_beta("Gerwyn Price")
+wright = plot_beta("Peter Wright")
+```
+
+```{r}
+#| label: fig-beta-graphs
+#| fig-cap: "Graphs of the distribution of p for each player"
+#| fig-width: 5
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+# using the method I did in the other lab to make them next to each other instead of facet_wrap
+littler + humphries + gerwen + smith + aspinall + cross + price + wright
+```
+
+7 out of 8 of the player graphs look the same and are heavily right skewed towards a p value of one, with the only exception being Peter Wright. His distribution looks gaussian, likely due to his relatively small win probability that is not as large as the others. 
+
+## Executive Summary
+Summarize the work you've done here to provide a brief (200-300 word) data-driven summary of the 2024 Premier League season using your work in Lab 10. Your summary should be professional, clear, and all claims should be corroborated with statistical support.
+
+**Solution**
+
+The 2024 Premier League could be modeled by the Altham's Binomial Distribution, or Altham's Beta Binomial Distribution with a fair degree of accuracy. Both distributions predicted the same final standings, and had 5 out of the 8 players in the same spots they were at in the real standings. This suggests that single leg win probability is predictive of overall success in the season. In the Beta Binomial distribution, the theta values calculated were above one for all players except Peter Wright and Luke Humphries. This suggests that Wright and Humphries were more likely to lose after winning the previous leg, while every other player was more likely to win after winning the previous leg.
+In the Binomial distribution, however, only Peter Wright had a theta below one. He also had the lowest single leg win probability.
+
+Looking at the variances, Luke Littler and Peter Wright had the two lowest values. They were also the first and last place finishers, respectively. This means that their leg win probabilities are the most accurately predicted ones by the model, which makes sense, because they were the best/worst players. Wright's low variance, theta below one and low single leg win probability can all be attributed to his very poor performance relative to the rest of the players - he lost 43 more legs than he won.
+
+Looking at overall league match result distributions, the majority of matches are won either 6-5 or 6-4, which suggests that the skill of the players is comparable. 

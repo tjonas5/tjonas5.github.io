@@ -1,0 +1,180 @@
+---
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+format:
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(rvest)
+```
+
+<!-- Code For Building Menu Here -->
+```{r}
+#| include: false
+breakfasts <- c("website/BerryMelonSmoothie.html",
+                "website/BiscuitsAndGravy.html",
+                "website/BreakfastCheesecake.html",
+                "website/BreakfastMuffins.html",
+                "website/ChiaParfait.html",
+                "website/GardenTomatoQuiche.html",
+                "website/OvernightOats.html",
+                "website/PumpkinToast.html",
+                "website/TropicalSmoothie.html")
+dinner <- c("website/AfricanPeanutSoup.html",
+            "website/Alfredo.html",
+            "website/ArugulaPasta.html",
+            "website/AutumnGrainBowl.html",
+            "website/BakedZiti.html",
+            "website/BBQChili.html",
+            "website/Bibimbap.html",
+            "website/BLTSalad.html",
+            "website/Burgers.html",
+            "website/CapreseSandwiches.html",
+            "website/EggplantParmesan.html",
+            "website/Enchiladas.html",
+            "website/FloridaRolls.html",
+            "website/KimchiGrilledCheese.html",
+            "website/Lasagna.html",
+            "website/LatinBowl.html",
+            "website/Meatloaf.html",
+            "website/PadThai.html",
+            "website/PastaAndPeas.html",
+            "website/Pizza.html",
+            "website/RedWineRagu.html",
+            "website/SalmonChowder.html",
+            "website/Shakshuka.html")
+```
+
+```{r}
+#| include: false
+meals=vector()
+breakfast=sample(breakfasts, 1)
+dinners=sample(dinner, 3)
+(meals=c(breakfast, dinners))
+```
+
+# Ingredients
+```{r}
+#| echo: false
+#| results: 'asis'
+ingredients.all = vector()
+for(i in 1:length(meals)){
+  meal=read_html(meals[i])
+  ingredients.section=html_element(meal, "#ingredients")
+  ingredients=html_elements(ingredients.section, 'li')
+  formatted_list <- paste("-", html_text(ingredients))
+  cat(formatted_list, sep = "\n")
+}
+
+
+```
+
+\newpage
+
+# Recipe One
+```{r}
+#| echo: false
+#| results: 'asis'
+meal=read_html(meals[2])
+image.element=html_element(meal, '.img-fluid')
+source.link=html_attr(image.element, "src")
+image.url=paste("website/", source.link, sep="")
+cat(paste('<img src="', image.url, '" style="width: 50%; height: auto;">'))
+instructions.section=html_element(meal, "#instructions")
+instructions=html_elements(instructions.section, 'li')
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n")
+```
+
+
+
+\newpage
+
+# Recipe Two
+```{r}
+#| echo: false
+#| results: 'asis'
+meal=read_html(meals[3])
+image.element=html_element(meal, '.img-fluid')
+source.link=html_attr(image.element, "src")
+image.url=paste("website/", source.link, sep="")
+cat(paste('<img src="', image.url, '" style="width: 50%; height: auto;">'))
+instructions.section=html_element(meal, "#instructions")
+instructions=html_elements(instructions.section, 'li')
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n")
+```
+
+\newpage
+
+# Recipe Three
+```{r}
+#| echo: false
+#| results: 'asis'
+meal=read_html(meals[4])
+image.element=html_element(meal, '.img-fluid')
+source.link=html_attr(image.element, "src")
+image.url=paste("website/", source.link, sep="")
+cat(paste('<img src="', image.url, '" style="width: 50%; height: auto;">'))
+instructions.section=html_element(meal, "#instructions")
+instructions=html_elements(instructions.section, 'li')
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n")
+```
+
+\newpage
+
+# Breakfast Recipe
+```{r}
+#| echo: false
+#| results: 'asis'
+meal=read_html(meals[1])
+image.element=html_element(meal, '.img-fluid')
+source.link=html_attr(image.element, "src")
+image.url=paste("website/", source.link, sep="")
+cat(paste('<img src="', image.url, '" style="width: 50%; height: auto;">'))
+instructions.section=html_element(meal, "#instructions")
+instructions=html_elements(instructions.section, 'li')
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n")
+```
