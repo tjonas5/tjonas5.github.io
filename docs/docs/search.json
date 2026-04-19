@@ -649,5 +649,15 @@
     "title": "Lab Four – Programming in R",
     "section": "4.4 Functions",
     "text": "4.4 Functions\nDid you use functions in your code? If yes, how. If not, are there places you could have used them but did something else? Solution I did not use any functions. I could have created a function for grabbing the instructions from the html, but instead I copy pasted my code each time."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BLAH",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.",
+    "crumbs": [
+      "Home"
+    ]
   }
 ]
