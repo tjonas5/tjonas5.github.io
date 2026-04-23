@@ -507,119 +507,119 @@
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-a",
     "title": "Lab Four – Programming in R",
     "section": "1.1 Part a",
-    "text": "1.1 Part a\nBelow, I create a numeric vector filled with random observations. Ask for the 3rd item. Note: The set.seed(7272) portion ensures we all get the same answer.\n\n\n\nCode\nset.seed(7272) # sets the randomization seed for replication\nx &lt;- sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n            size=10,         # sample of 10\n            replace = TRUE)  # allowed to sample the same item multiple times\n\n\n Solution\n\n\n\nCode\nx[3]\n\n\n[1] 5\n\n\n ## Part b\nBelow, I create a data frame filled with random observations.\n\n\n\nCode\nset.seed(7272) # sets the randomization seed for replication\ndf &lt;- data.frame(x1 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE), # allowed to sample the same item multiple times\n                 x2 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE), # allowed to sample the same item multiple times\n                 x3 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE)  # allowed to sample the same item multiple times,\n)"
+    "text": "1.1 Part a\nBelow, I create a numeric vector filled with random observations. Ask for the 3rd item. Note: The set.seed(7272) portion ensures we all get the same answer.\n\n\n\nCode\nset.seed(7272) # sets the randomization seed for replication\nx &lt;- sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n            size=10,         # sample of 10\n            replace = TRUE)  # allowed to sample the same item multiple times\n\n\n\nSolution\n\n\n\nCode\nx[3]\n\n\n[1] 5"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-b",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-b",
     "title": "Lab Four – Programming in R",
     "section": "1.2 Part b",
-    "text": "1.2 Part b\nUse the head(...) function to peek at the data frame. Solution\n\n\n\nCode\nhead(df)\n\n\n  x1 x2 x3\n1  8  1  8\n2  3  7  2\n3  5  3  3\n4  3  6  2\n5  2  2  3\n6  3  8 10\n\n\n ## Part c Ask for the column x1. Solution\n\n\n\nCode\ndf$x1\n\n\n [1] 8 3 5 3 2 3 1 2 6 2"
+    "text": "1.2 Part b\nBelow, I create a data frame filled with random observations.\n\n\n\nCode\nset.seed(7272) # sets the randomization seed for replication\ndf &lt;- data.frame(x1 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE), # allowed to sample the same item multiple times\n                 x2 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE), # allowed to sample the same item multiple times\n                 x3 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 \n                             size=10,         # sample of 10\n                             replace = TRUE)  # allowed to sample the same item multiple times,\n)"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-d",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-d",
     "title": "Lab Four – Programming in R",
-    "section": "1.3 Part d",
-    "text": "1.3 Part d\nAsk for the fifth row of the data frame. Solution\n\n\n\nCode\ndf[5,]\n\n\n  x1 x2 x3\n5  2  2  3"
+    "section": "1.5 Part d",
+    "text": "1.5 Part d\nAsk for the fifth row of the data frame.\nSolution The following code gets the fifth row of the data frame, which includes all columns.\n\n\n\nCode\ndf[5,]\n\n\n  x1 x2 x3\n5  2  2  3"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-e",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-e",
     "title": "Lab Four – Programming in R",
-    "section": "1.4 Part e",
-    "text": "1.4 Part e\nAsk for the the value of x1 in the fifth row of the data frame. Solution\n\n\n\nCode\ndf$x1[5]\n\n\n[1] 2"
+    "section": "1.6 Part e",
+    "text": "1.6 Part e\nAsk for the the value of x1 in the fifth row of the data frame.\nSolution This code returns the value of x1 in the fifth row of the data frame.\n\n\n\nCode\ndf$x1[5]\n\n\n[1] 2"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-f",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-f",
     "title": "Lab Four – Programming in R",
-    "section": "1.5 Part f",
-    "text": "1.5 Part f\nAsk for the the value of in the third column and the fifth row of the data frame. Solution\n\n\n\nCode\ndf[5, 3]\n\n\n[1] 3"
+    "section": "1.7 Part f",
+    "text": "1.7 Part f\nAsk for the the value of in the third column and the fifth row of the data frame.\nSolution The below code returns the value in the third column and fifth row.\n\n\n\nCode\ndf[5, 3]\n\n\n[1] 3"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-g",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-g",
     "title": "Lab Four – Programming in R",
-    "section": "1.6 Part g",
-    "text": "1.6 Part g\nCreate a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame. Solution\n\n\n\nCode\n(odds=seq(from=1, to=10, by =2))\n\n\n[1] 1 3 5 7 9"
+    "section": "1.8 Part g",
+    "text": "1.8 Part g\nCreate a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame.\nSolution The below code creates a vector odds, and then prints the odd rows of the data frame.\n\n\n\nCode\nodds=seq(from=1, to=10, by =2)\n(df[odds,])\n\n\n  x1 x2 x3\n1  8  1  8\n3  5  3  3\n5  2  2  3\n7  1 10  1\n9  6  2 10"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-h",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-h",
     "title": "Lab Four – Programming in R",
-    "section": "1.7 Part h",
-    "text": "1.7 Part h\nBelow, I create an empty column called x12. Fill in the details of the for(...) loop to ensure x12 is the product of x1 and x2. Solution\n\n\n\nCode\nn &lt;- nrow(df)                # How many rows to we have to fill?\ndf$x12 &lt;- rep(NA, nrow(df))   # Create an empty column for x12\nfor(i in 1:nrow(df)){\n  df$x12[i]=df$x1[i]*df$x2[i]\n}"
+    "section": "1.9 Part h",
+    "text": "1.9 Part h\nBelow, I create an empty column called x12. Fill in the details of the for(...) loop to ensure x12 is the product of x1 and x2.\nSolution\n\n\n\nCode\nn &lt;- nrow(df)                # How many rows to we have to fill?\ndf$x12 &lt;- rep(NA, nrow(df))   # Create an empty column for x12\nfor(i in 1:nrow(df)){\n  df$x12[i]=df$x1[i]*df$x2[i]\n}"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-i",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-i",
     "title": "Lab Four – Programming in R",
-    "section": "1.8 Part i",
-    "text": "1.8 Part i\nWrite a function called calculate.score(...) that takes three arguments representing x1, x2, and x3) and returns a single value based on the formula: \\[Score = (x_1 \\times 2) + x_2 - x_3\\] Use your function to create a new column total.score in our data frame df. Solution\n\n\n\nCode\ncalculate.score = function(x1, x2, x3){\n  x1*2+x2-x3\n}\n\nn &lt;- nrow(df)                \ndf$total.score &lt;- rep(NA, nrow(df))\nfor(i in 1:nrow(df)){\n  df$total.score[i]=calculate.score(df$x1[i], df$x2[i], df$x3[i])\n}\ndf$total.score\n\n\n [1]  9 11 10 10  3  4 11  9  4  7"
+    "section": "1.10 Part i",
+    "text": "1.10 Part i\nWrite a function called calculate.score(...) that takes three arguments representing x1, x2, and x3) and returns a single value based on the formula: \\[Score = (x_1 \\times 2) + x_2 - x_3\\] Use your function to create a new column total.score in our data frame df.\nSolution\n\n\n\nCode\ncalculate.score = function(x1, x2, x3){\n  x1*2+x2-x3\n}\n\nn &lt;- nrow(df)                \ndf$total.score &lt;- rep(NA, nrow(df))\nfor(i in 1:nrow(df)){\n  df$total.score[i]=calculate.score(df$x1[i], df$x2[i], df$x3[i])\n}\ndf$total.score\n\n\n [1]  9 11 10 10  3  4 11  9  4  7"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-j",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-j",
     "title": "Lab Four – Programming in R",
-    "section": "1.9 Part j",
-    "text": "1.9 Part j\nCreate a function called evaluate.row(...) that takes one argument and returns “low” when the argument is less than 4, “mid” when the argument is between 4 and 7 (inclusive), and “high” when the arguement is 8 or larger. Then, use sapply(...) to apply it to column x1. Solution\n\n\n\nCode\nevaluate.row = function(x){\n  if(x &lt; 4)\n    return(\"low\")\n  else if(x &lt;= 7)\n    return(\"mid\")\n  else if (x &gt;= 8)\n    return(\"high\")\n }\nsapply(df$x1, evaluate.row)\n\n\n [1] \"high\" \"low\"  \"mid\"  \"low\"  \"low\"  \"low\"  \"low\"  \"low\"  \"mid\"  \"low\""
+    "section": "1.11 Part j",
+    "text": "1.11 Part j\nCreate a function called evaluate.row(...) that takes one argument and returns “low” when the argument is less than 4, “mid” when the argument is between 4 and 7 (inclusive), and “high” when the arguement is 8 or larger. Then, use sapply(...) to apply it to column x1. Solution\n\n\n\nCode\nevaluate.row = function(x){\n  if(x &lt; 4){\n    return(\"low\")\n  }\n  else if(x &lt;= 7){\n    return(\"mid\")\n  }\n  else if (x &gt;= 8){\n    return(\"high\")\n  }\n }\nsapply(df$x1, evaluate.row)\n\n\n [1] \"high\" \"low\"  \"mid\"  \"low\"  \"low\"  \"low\"  \"low\"  \"low\"  \"mid\"  \"low\""
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-k",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-k",
     "title": "Lab Four – Programming in R",
-    "section": "1.10 Part k",
-    "text": "1.10 Part k\nDid we need to use loops or functions in (h.)-(j.)? That is, can we use vectorization to attain the same results in 1 line each? Where it is possible, write the line of code. Where it is not, explain why. Solution For part h, it is possible to multiply the columns together to get the same result as using a loop.\n\n\n\nCode\ndf$test=df$x1*df$x2\n\n\n\nFor part i, a similar thing can be done to part h to get it done in one line.\n\n\n\nCode\ndf$total.score.test=2*df$x1+df$x2-df$x3\n\n\n\nFor part j, it is not possible to write in one line because the value returned depends on a condition, which requires a conditional statement to address. This takes up more than one line."
+    "section": "1.12 Part k",
+    "text": "1.12 Part k\nDid we need to use loops or functions in (h.)-(j.)? That is, can we use vectorization to attain the same results in 1 line each? Where it is possible, write the line of code. Where it is not, explain why.\nSolution For part h, it is possible to multiply the columns together to get the same result as using a loop.\n\n\n\nCode\ndf$test=df$x1*df$x2\n\n\n\nFor part i, a similar thing can be done to part h to get it done in one line.\n\n\n\nCode\ndf$total.score.test=2*df$x1+df$x2-df$x3\n\n\n\nFor part j, it is possible to use nested if else statements as demonstrated below.\n\n\n\nCode\nsapply(df$x1, function(x) ifelse(x &lt; 4, \"low\", ifelse(x &lt;= 7, \"mid\", \"high\")))\n\n\n [1] \"high\" \"low\"  \"mid\"  \"low\"  \"low\"  \"low\"  \"low\"  \"low\"  \"mid\"  \"low\""
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-a-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-a-1",
     "title": "Lab Four – Programming in R",
     "section": "2.1 Part a",
-    "text": "2.1 Part a\nInstall and load the rvest package (Wickham 2025). Solution\n\n\n\nCode\n# install.packages('rvest')\nlibrary(rvest)"
+    "text": "2.1 Part a\nInstall and load the rvest package (Wickham 2025).\nSolution\n\n\n\nCode\n# install.packages('rvest')\nlibrary(rvest)"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-b-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-b-1",
     "title": "Lab Four – Programming in R",
-    "section": "2.2 Part b",
-    "text": "2.2 Part b\nLoad the html of the website/KimchiGrilledCheese.html using the read_html() function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you’ll notice it contains the html we saw in the developer tools in class. Hint: You can use read_html(...) like read.csv(...). Don’t forget you can use the documentation to help use it. Solution\n\n\n\nCode\ngrilled.cheese=read_html('website/KimchiGrilledCheese.html')"
+    "section": "1.3 Part b",
+    "text": "1.3 Part b\nUse the head(...) function to peek at the data frame. Solution\n\n\n\nCode\nhead(df)\n\n\n  x1 x2 x3\n1  8  1  8\n2  3  7  2\n3  5  3  3\n4  3  6  2\n5  2  2  3\n6  3  8 10"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-c",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-c",
     "title": "Lab Four – Programming in R",
-    "section": "2.3 Part c",
-    "text": "2.3 Part c\nOpen the html file in a web browser and open developer tools. In chrome-based browsers, you can do this by pressing the three verticle dots in the upper-right corner, clicking “more tools”, then “developer tools”.\nFind the name of the Ingredients section of the website and pull the HTML of the function using html_element(...) and save the results to an object called ingredients.section.  Hint: You can ask for elements by id using a preceeding “#”. See ?html_element(...) for a helpful example. Solution\n\n\n\nCode\ningredients.section=html_element(grilled.cheese, \"#ingredients\")"
+    "section": "1.4 Part c",
+    "text": "1.4 Part c\nAsk for the column x1.\nSolution The following code gets the column named x1.\n\n\n\nCode\ndf$x1\n\n\n [1] 8 3 5 3 2 3 1 2 6 2"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-d-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-d-1",
     "title": "Lab Four – Programming in R",
     "section": "2.4 Part d",
-    "text": "2.4 Part d\nNow, we want to obtain all of the itemized items. Find the element type the individual ingredients and pull all of them from ingredients.section using html_elements(...) (note the added s) and save the results to an object called ingredients. Hint: You can ask for elements by type by simply specifying the tag (e.g., “p” for paragraph). See `?html_element for a helpful example. Solution\n\n\n\nCode\nhtml_elements(ingredients.section, '*')\n\n\n{xml_nodeset (11)}\n [1] &lt;h2 class=\"anchored\" data-anchor-id=\"ingredients\"&gt;Ingredients&lt;/h2&gt;\n [2] &lt;ul&gt;\\n&lt;li&gt;1/8 tsp chili flakes&lt;/li&gt;\\n&lt;li&gt;4 garlic cloves&lt;/li&gt;\\n&lt;li&gt;5 oz  ...\n [3] &lt;li&gt;1/8 tsp chili flakes&lt;/li&gt;\n [4] &lt;li&gt;4 garlic cloves&lt;/li&gt;\n [5] &lt;li&gt;5 oz spinach&lt;/li&gt;\n [6] &lt;li&gt;1 tsp gochujang&lt;/li&gt;\n [7] &lt;li&gt;3 tsp mayonnaise&lt;/li&gt;\n [8] &lt;li&gt;2/3 cup kimchi&lt;/li&gt;\n [9] &lt;li&gt;4 slices of bread&lt;/li&gt;\n[10] &lt;li&gt;2/3 cup cheddar cheese&lt;/li&gt;\n[11] &lt;li&gt;4 tablespoons everything seasoning.&lt;/li&gt;\n\n\nCode\ningredients=html_elements(ingredients.section, 'li')"
+    "text": "2.4 Part d\nNow, we want to obtain all of the itemized items. Find the element type the individual ingredients and pull all of them from ingredients.section using html_elements(...) (note the added s) and save the results to an object called ingredients. Hint: You can ask for elements by type by simply specifying the tag (e.g., “p” for paragraph). See `?html_element for a helpful example.\nSolution\n\n\n\nCode\nhtml_elements(ingredients.section, '*')\n\n\n{xml_nodeset (11)}\n [1] &lt;h2 class=\"anchored\" data-anchor-id=\"ingredients\"&gt;Ingredients&lt;/h2&gt;\n [2] &lt;ul&gt;\\n&lt;li&gt;1/8 tsp chili flakes&lt;/li&gt;\\n&lt;li&gt;4 garlic cloves&lt;/li&gt;\\n&lt;li&gt;5 oz  ...\n [3] &lt;li&gt;1/8 tsp chili flakes&lt;/li&gt;\n [4] &lt;li&gt;4 garlic cloves&lt;/li&gt;\n [5] &lt;li&gt;5 oz spinach&lt;/li&gt;\n [6] &lt;li&gt;1 tsp gochujang&lt;/li&gt;\n [7] &lt;li&gt;3 tsp mayonnaise&lt;/li&gt;\n [8] &lt;li&gt;2/3 cup kimchi&lt;/li&gt;\n [9] &lt;li&gt;4 slices of bread&lt;/li&gt;\n[10] &lt;li&gt;2/3 cup cheddar cheese&lt;/li&gt;\n[11] &lt;li&gt;4 tablespoons everything seasoning.&lt;/li&gt;\n\n\nCode\ningredients=html_elements(ingredients.section, 'li')"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-e-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-e-1",
     "title": "Lab Four – Programming in R",
     "section": "2.5 Part e",
-    "text": "2.5 Part e\nSimilar to Part c. Find the name of the Instructions section of the website and pull the HTML of the function using html_element(...) and save the results to an object called instructions.section. Solution\n\n\n\nCode\ninstructions.section=html_element(grilled.cheese, \"#instructions\")"
+    "text": "2.5 Part e\nSimilar to Part c. Find the name of the Instructions section of the website and pull the HTML of the function using html_element(...) and save the results to an object called instructions.section.\nSolution\n\n\n\nCode\ninstructions.section=html_element(grilled.cheese, \"#instructions\")"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-f-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-f-1",
     "title": "Lab Four – Programming in R",
     "section": "2.6 Part f",
-    "text": "2.6 Part f\nNow, we want to obtain all of the enumerated items. Find the element type the individual instructions and pull all of them from instructions.section using html_elements(...) (note the added s) and save the results to an object called instructions. Solution\n\n\n\nCode\nhtml_elements(instructions.section, '*')\n\n\n{xml_nodeset (7)}\n[1] &lt;h2 class=\"anchored\" data-anchor-id=\"instructions\"&gt;Instructions&lt;/h2&gt;\n[2] &lt;ol type=\"1\"&gt;\\n&lt;li&gt;In a frying pan, heat 2 tablespoons olive oil with chi ...\n[3] &lt;li&gt;In a frying pan, heat 2 tablespoons olive oil with chili flakes.&lt;/li&gt;\n[4] &lt;li&gt;Add spinach and cook until wilted.&lt;/li&gt;\n[5] &lt;li&gt;Mix gochujang and mayonnaise in a small bowl and spread on one side o ...\n[6] &lt;li&gt;Build sandwiches by layering spinach, kimchi, and cheese between two  ...\n[7] &lt;li&gt;Fry in butter until golden brown on both sides.&lt;/li&gt;\n\n\nCode\ninstructions=html_elements(instructions.section, 'li')"
+    "text": "2.6 Part f\nNow, we want to obtain all of the enumerated items. Find the element type the individual instructions and pull all of them from instructions.section using html_elements(...) (note the added s) and save the results to an object called instructions.\nSolution\n\n\n\nCode\nhtml_elements(instructions.section, '*')\n\n\n{xml_nodeset (7)}\n[1] &lt;h2 class=\"anchored\" data-anchor-id=\"instructions\"&gt;Instructions&lt;/h2&gt;\n[2] &lt;ol type=\"1\"&gt;\\n&lt;li&gt;In a frying pan, heat 2 tablespoons olive oil with chi ...\n[3] &lt;li&gt;In a frying pan, heat 2 tablespoons olive oil with chili flakes.&lt;/li&gt;\n[4] &lt;li&gt;Add spinach and cook until wilted.&lt;/li&gt;\n[5] &lt;li&gt;Mix gochujang and mayonnaise in a small bowl and spread on one side o ...\n[6] &lt;li&gt;Build sandwiches by layering spinach, kimchi, and cheese between two  ...\n[7] &lt;li&gt;Fry in butter until golden brown on both sides.&lt;/li&gt;\n\n\nCode\ninstructions=html_elements(instructions.section, 'li')"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-g-1",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-g-1",
     "title": "Lab Four – Programming in R",
     "section": "2.7 Part g",
-    "text": "2.7 Part g\nFind the class of the recipe image and pull the HTML using html_element(...) and save the results to an object called image.element.  Hint: You can ask for elements by class using a preceeding “.”. See ?html_element(...) for a helpful example. Further, note that HTML elements may have more than one class (separated by a space). When that is the case, you need to choose one. Solution\n\n\n\nCode\nimage.element=html_element(grilled.cheese, '.img-fluid')"
+    "text": "2.7 Part g\nFind the class of the recipe image and pull the HTML using html_element(...) and save the results to an object called image.element.  Hint: You can ask for elements by class using a preceeding “.”. See ?html_element(...) for a helpful example. Further, note that HTML elements may have more than one class (separated by a space). When that is the case, you need to choose one.\nSolution\n\n\n\nCode\nimage.element=html_element(grilled.cheese, '.img-fluid')"
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-h-1",
@@ -640,28 +640,28 @@
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#why-a-fake-website",
     "title": "Lab Four – Programming in R",
     "section": "4.1 Why a fake website?",
-    "text": "4.1 Why a fake website?\nRead https://www.scrapingbee.com/blog/is-web-scraping-legal/. Originally, I conceived doing this with recipes from Purple Carrot (my favorite subscription service). Being a large company, their terms of service are very long and precluded us from copying their recipes. We also checked a few smaller recipe websites we like and even they had terms of service that restricted automated collection of data."
+    "text": "4.1 Why a fake website?\nRead https://www.scrapingbee.com/blog/is-web-scraping-legal/. Originally, I conceived doing this with recipes from Purple Carrot (my favorite subscription service). Being a large company, their terms of service are very long and precluded us from copying their recipes. We also checked a few smaller recipe websites we like and even they had terms of service that restricted automated collection of data.\nSolution\nThere are specific no web scraping laws in the US, however there have been court cases debating this subject and subsequent rulings that set precedents for future cases, such as hiQ labs vs. LinkedIn. Many websites have terms of service that prevent you from scraping them. Also, some states like California and Virginia have their own laws regarding web scraping of personal information. Therefore, making a fake website means that we do not run into any of these legal issues and are free to scrape it as much as we want."
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#conditionals",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#conditionals",
     "title": "Lab Four – Programming in R",
     "section": "4.2 Conditionals",
-    "text": "4.2 Conditionals\nDid you use conditional statements in your code? If yes, how. If not, are there places you could have used them but did something else? Solution I did not use any conditionals."
+    "text": "4.2 Conditionals\nDid you use conditional statements in your code? If yes, how. If not, are there places you could have used them but did something else?\nSolution\nI did not use any conditionals. I could have used conditionals to randomly sample meals from the list of available ones and thus randomize the order of how the meals appeared on the menu. Instead, I used the sample function."
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#loops",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#loops",
     "title": "Lab Four – Programming in R",
     "section": "4.3 Loops",
-    "text": "4.3 Loops\nDid you use loops in your code? If yes, how. If not, are there places you could have used them but did something else? Solution I did not use loops in my code. I could have looped over the different recipies, but instead I copy and pasted the code three times."
+    "text": "4.3 Loops\nDid you use loops in your code? If yes, how. If not, are there places you could have used them but did something else?\nSolution I did not use loops in my code. I could have looped over the different recipies, but instead I copy and pasted the code three times."
   },
   {
     "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#functions",
     "href": "Lab 4/Lab 4/Lab4WriteUp.html#functions",
     "title": "Lab Four – Programming in R",
     "section": "4.4 Functions",
-    "text": "4.4 Functions\nDid you use functions in your code? If yes, how. If not, are there places you could have used them but did something else? Solution I did not use any functions. I could have created a function for grabbing the instructions from the html, but instead I copy pasted my code each time."
+    "text": "4.4 Functions\nDid you use functions in your code? If yes, how. If not, are there places you could have used them but did something else?\nSolution I did not use any functions. I could have created a function for grabbing the instructions from the html, but instead I copy pasted my code each time."
   },
   {
     "objectID": "Lab 2/Lab 2/Lab2WriteUp.html#part-b-1",
@@ -676,5 +676,19 @@
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.3 Part c",
     "text": "4.3 Part c\nUse as.matrix() to create a \\(22 \\times 2\\) matrix \\(\\mathbf{A}\\) containing the x and y observations from the ladder data frame. Use matrix multiplication to compute \\[\\mathbf{T} = \\mathbf{A} \\mathbf{M}_h.\\] Recall, \\[\\mathbf{M}_h = \\begin{bmatrix} 1 & 0 \\\\ k & 1 \\end{bmatrix}\\] and use \\(k=0.5.\\) Solution\n\n\n\nCode\n(A = as.matrix(ladder[, 1:2], nrow= 22))\n\n\n      x  y\n [1,] 0  0\n [2,] 0 20\n [3,] 1  0\n [4,] 1 20\n [5,] 0  2\n [6,] 1  2\n [7,] 0  4\n [8,] 1  4\n [9,] 0  6\n[10,] 1  6\n[11,] 0  8\n[12,] 1  8\n[13,] 0 10\n[14,] 1 10\n[15,] 0 12\n[16,] 1 12\n[17,] 0 14\n[18,] 1 14\n[19,] 0 16\n[20,] 1 16\n[21,] 0 18\n[22,] 1 18\n\n\nCode\n(M = matrix(c(1, 0, .5, 1), nrow=2, byrow=T))\n\n\n     [,1] [,2]\n[1,]  1.0    0\n[2,]  0.5    1\n\n\nCode\n(T = A %*% M)\n\n\n      [,1] [,2]\n [1,]    0    0\n [2,]   10   20\n [3,]    1    0\n [4,]   11   20\n [5,]    1    2\n [6,]    2    2\n [7,]    2    4\n [8,]    3    4\n [9,]    3    6\n[10,]    4    6\n[11,]    4    8\n[12,]    5    8\n[13,]    5   10\n[14,]    6   10\n[15,]    6   12\n[16,]    7   12\n[17,]    7   14\n[18,]    8   14\n[19,]    8   16\n[20,]    9   16\n[21,]    9   18\n[22,]   10   18"
+  },
+  {
+    "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-b-2",
+    "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-b-2",
+    "title": "Lab Four – Programming in R",
+    "section": "2.2 Part b",
+    "text": "2.2 Part b\nLoad the html of the website/KimchiGrilledCheese.html using the read_html() function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you’ll notice it contains the html we saw in the developer tools in class. Hint: You can use read_html(...) like read.csv(...). Don’t forget you can use the documentation to help use it.\nSolution\n\n\n\nCode\ngrilled.cheese=read_html('website/KimchiGrilledCheese.html')"
+  },
+  {
+    "objectID": "Lab 4/Lab 4/Lab4WriteUp.html#part-c-1",
+    "href": "Lab 4/Lab 4/Lab4WriteUp.html#part-c-1",
+    "title": "Lab Four – Programming in R",
+    "section": "2.3 Part c",
+    "text": "2.3 Part c\nOpen the html file in a web browser and open developer tools. In chrome-based browsers, you can do this by pressing the three verticle dots in the upper-right corner, clicking “more tools”, then “developer tools”.\nFind the name of the Ingredients section of the website and pull the HTML of the function using html_element(...) and save the results to an object called ingredients.section.  Hint: You can ask for elements by id using a preceeding “#”. See ?html_element(...) for a helpful example.\nSolution\n\n\n\nCode\ningredients.section=html_element(grilled.cheese, \"#ingredients\")"
   }
 ]

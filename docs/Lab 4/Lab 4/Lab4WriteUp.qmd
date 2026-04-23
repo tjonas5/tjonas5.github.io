@@ -79,10 +79,13 @@ x <- sample(x=1:10,          # sample from 1, 2, 3, ..., 10
             size=10,         # sample of 10
             replace = TRUE)  # allowed to sample the same item multiple times
 ```
+
 **Solution**
 ```{r}
 x[3]
 ```
+
+
 ## Part b
 
 Below, I create a data frame filled with random observations.
@@ -106,47 +109,57 @@ Use the `head(...)` function to peek at the data frame.
 **Solution**
 ```{r}
 head(df)
-
-
 ```
+
 ## Part c
 Ask for the column `x1`.
+
 **Solution**
+The following code gets the column named x1. 
 ```{r}
 df$x1
 ```
 
 ## Part d
 Ask for the fifth row of the data frame.
+
 **Solution**
+The following code gets the fifth row of the data frame, which includes all columns.
 ```{r}
 df[5,]
-
 ```
 
 ## Part e
 Ask for the the value of `x1` in the fifth row of the data frame.
+
 **Solution**
+This code returns the value of x1 in the fifth row of the data frame. 
 ```{r}
 df$x1[5]
 ```
 
 ## Part f
 Ask for the the value of in the third column and the fifth row of the data frame.
+
 **Solution**
+The below code returns the value in the third column and fifth row.
 ```{r}
 df[5, 3]
 ```
 
 ## Part g
 Create a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame.
+
 **Solution**
+The below code creates a vector odds, and then prints the odd rows of the data frame.
 ```{r}
-(odds=seq(from=1, to=10, by =2))
+odds=seq(from=1, to=10, by =2)
+(df[odds,])
 ```
 
 ## Part h
 Below, I create an empty column called `x12`. Fill in the details of the `for(...)` loop to ensure `x12` is the product of `x1` and `x2`.
+
 **Solution**
 ```{r}
 #| size: "scriptsize"
@@ -161,7 +174,9 @@ for(i in 1:nrow(df)){
 Write a function called `calculate.score(...)` that takes three arguments representing `x1`, `x2`, and `x3`) and returns a single value based on the formula:
 $$Score = (x_1 \times 2) + x_2 - x_3$$
 Use your function to create a new column `total.score` in our data frame `df`.
+
 **Solution**
+
 ```{r}
 calculate.score = function(x1, x2, x3){
   x1*2+x2-x3
@@ -180,37 +195,49 @@ Create a function called `evaluate.row(...)` that takes one argument and returns
 **Solution**
 ```{r}
 evaluate.row = function(x){
-  if(x < 4)
+  if(x < 4){
     return("low")
-  else if(x <= 7)
+  }
+  else if(x <= 7){
     return("mid")
-  else if (x >= 8)
+  }
+  else if (x >= 8){
     return("high")
+  }
  }
 sapply(df$x1, evaluate.row)
 ```
 
 ## Part k
 Did we need to use loops or functions in (h.)-(j.)? That is, can we use vectorization to attain the same results in 1 line each? Where it is possible, write the line of code. Where it is not, explain why.
+
 **Solution**
 For part h, it is possible to multiply the columns together to get the same result as using a loop.
+
 ```{r}
 df$test=df$x1*df$x2
 ```
 
 For part i, a similar thing can be done to part h to get it done in one line.
+
 ```{r}
 df$total.score.test=2*df$x1+df$x2-df$x3
 ```
 
-For part j, it is not possible to write in one line because the value returned depends on a condition, which requires a conditional statement to address. This takes up more than one line.
+For part j, it is possible to use nested if else statements as demonstrated below.
+
+```{r}
+sapply(df$x1, function(x) ifelse(x < 4, "low", ifelse(x <= 7, "mid", "high")))
+```
 
 # Complete Tasks for One Recipe
 
 ## Part a
 
 Install and load the `rvest` package [@rvest].
+
 **Solution**
+
 ```{r}
 # install.packages('rvest')
 library(rvest)
@@ -221,10 +248,11 @@ library(rvest)
 
 Load the html of the `website/KimchiGrilledCheese.html` using the `read_html()` function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you'll notice it contains the html we saw in the developer tools in class.<br/>
 **Hint**: You can use `read_html(...)` like `read.csv(...)`. Don't forget you can use the documentation to help use it.
+
 **Solution**
+
 ```{r}
 grilled.cheese=read_html('website/KimchiGrilledCheese.html')
-
 ```
 
 ## Part c
@@ -233,7 +261,9 @@ Open the html file in a web browser and open developer tools. In chrome-based br
 
 Find the name of the Ingredients section of the website and pull the HTML of the function using `html_element(...)` and save the results to an object called `ingredients.section`. <br/>
 **Hint**: You can ask for elements by id using a preceeding "\#". See `?html_element(...)` for a helpful example. 
+
 **Solution**
+
 ```{r}
 ingredients.section=html_element(grilled.cheese, "#ingredients")
 ```
@@ -241,7 +271,9 @@ ingredients.section=html_element(grilled.cheese, "#ingredients")
 ## Part d
 Now, we want to obtain all of the itemized items. Find the element type the individual ingredients and pull all of them from `ingredients.section` using `html_elements(...)` (note the added s) and save the results to an object called `ingredients`.<br/>
 **Hint**: You can ask for elements by type by simply specifying the tag (e.g., "p" for paragraph). See `?html_element for a helpful example.
+
 **Solution**
+
 ```{r}
 html_elements(ingredients.section, '*')
 ingredients=html_elements(ingredients.section, 'li')
@@ -249,25 +281,29 @@ ingredients=html_elements(ingredients.section, 'li')
 
 ## Part e
 Similar to Part c. Find the name of the Instructions section of the website and pull the HTML of the function using `html_element(...)` and save the results to an object called `instructions.section`.<br/>
+
 **Solution**
+
 ```{r}
 instructions.section=html_element(grilled.cheese, "#instructions")
-
 ```
 
 ## Part f
 Now, we want to obtain all of the enumerated items. Find the element type the individual instructions and pull all of them from `instructions.section` using `html_elements(...)` (note the added s) and save the results to an object called `instructions`.
+
 **Solution**
+
 ```{r}
 html_elements(instructions.section, '*')
 instructions=html_elements(instructions.section, 'li')
-
 ```
 
 ## Part g
 Find the class of the recipe image and pull the HTML using `html_element(...)` and save the results to an object called `image.element`. <br/>
 **Hint**: You can ask for elements by class using a preceeding ".". See `?html_element(...)` for a helpful example. Further, note that HTML elements may have more than one class (separated by a space). When that is the case, you need to choose one.
+
 **Solution**
+
 ```{r}
 image.element=html_element(grilled.cheese, '.img-fluid')
 ```
@@ -327,19 +363,28 @@ When you render this document, no code should be visible. Instead, you should se
 ## Why a fake website?
 Read [https://www.scrapingbee.com/blog/is-web-scraping-legal/](Is Web Sraping Legal?). Originally, I conceived doing this with recipes from Purple Carrot (my favorite subscription service). Being a large company, their terms of service are *very* long and precluded us from copying their recipes. We also checked a few smaller recipe websites we like and even they had terms of service that restricted automated collection of data.
 
+**Solution**
+
+There are specific no web scraping laws in the US, however there have been court cases debating this subject and subsequent rulings that set precedents for future cases, such as hiQ labs vs. LinkedIn. Many websites have terms of service that prevent you from scraping them. Also, some states like California and Virginia have their own laws regarding web scraping of personal information. Therefore, making a fake website means that we do not run into any of these legal issues and are free to scrape it as much as we want.
+
 ## Conditionals
 Did you use conditional statements in your code? If yes, how. If not, are there places you could have used them but did something else?
+
+
 **Solution**
-I did not use any conditionals. 
+
+I did not use any conditionals. I could have used conditionals to randomly sample meals from the list of available ones and thus randomize the order of how the meals appeared on the menu. Instead, I used the sample function. 
 
 
 ## Loops
 Did you use loops in your code? If yes, how. If not, are there places you could have used them but did something else?
+
 **Solution**
 I did not use loops in my code. I could have looped over the different recipies, but instead I copy and pasted the code three times.
 
 ## Functions
 Did you use functions in your code? If yes, how. If not, are there places you could have used them but did something else?
+
 **Solution**
 I did not use any functions. I could have created a function for grabbing the instructions from the html, but instead I copy pasted my code each time. 
 
