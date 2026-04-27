@@ -38,7 +38,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
     x
   }
 })
-
+knitr::opts_knit$set(root.dir = here::here())
 ```
 
 ```{r}
@@ -46,43 +46,44 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 #| include: false
 library(tidyverse)
 library(rvest)
+library(here)
 ```
 
 <!-- Code For Building Menu Here -->
 ```{r}
 #| include: false
-breakfasts <- c("website/BerryMelonSmoothie.html",
-                "website/BiscuitsAndGravy.html",
-                "website/BreakfastCheesecake.html",
-                "website/BreakfastMuffins.html",
-                "website/ChiaParfait.html",
-                "website/GardenTomatoQuiche.html",
-                "website/OvernightOats.html",
-                "website/PumpkinToast.html",
-                "website/TropicalSmoothie.html")
-dinner <- c("website/AfricanPeanutSoup.html",
-            "website/Alfredo.html",
-            "website/ArugulaPasta.html",
-            "website/AutumnGrainBowl.html",
-            "website/BakedZiti.html",
-            "website/BBQChili.html",
-            "website/Bibimbap.html",
-            "website/BLTSalad.html",
-            "website/Burgers.html",
-            "website/CapreseSandwiches.html",
-            "website/EggplantParmesan.html",
-            "website/Enchiladas.html",
-            "website/FloridaRolls.html",
-            "website/KimchiGrilledCheese.html",
-            "website/Lasagna.html",
-            "website/LatinBowl.html",
-            "website/Meatloaf.html",
-            "website/PadThai.html",
-            "website/PastaAndPeas.html",
-            "website/Pizza.html",
-            "website/RedWineRagu.html",
-            "website/SalmonChowder.html",
-            "website/Shakshuka.html")
+breakfasts <- c("docs/Lab 4/Lab 4/website/BerryMelonSmoothie.html",
+                "docs/Lab 4/Lab 4/website/BiscuitsAndGravy.html",
+                "docs/Lab 4/Lab 4/website/BreakfastCheesecake.html",
+                "docs/Lab 4/Lab 4/website/BreakfastMuffins.html",
+                "docs/Lab 4/Lab 4/website/ChiaParfait.html",
+                "docs/Lab 4/Lab 4/website/GardenTomatoQuiche.html",
+                "docs/Lab 4/Lab 4/website/OvernightOats.html",
+                "docs/Lab 4/Lab 4/website/PumpkinToast.html",
+                "docs/Lab 4/Lab 4/website/TropicalSmoothie.html")
+dinner <- c("docs/Lab 4/Lab 4/website/AfricanPeanutSoup.html",
+            "docs/Lab 4/Lab 4/website/Alfredo.html",
+            "docs/Lab 4/Lab 4/website/ArugulaPasta.html",
+            "docs/Lab 4/Lab 4/website/AutumnGrainBowl.html",
+            "docs/Lab 4/Lab 4/website/BakedZiti.html",
+            "docs/Lab 4/Lab 4/website/BBQChili.html",
+            "docs/Lab 4/Lab 4/website/Bibimbap.html",
+            "docs/Lab 4/Lab 4/website/BLTSalad.html",
+            "docs/Lab 4/Lab 4/website/Burgers.html",
+            "docs/Lab 4/Lab 4/website/CapreseSandwiches.html",
+            "docs/Lab 4/Lab 4/website/EggplantParmesan.html",
+            "docs/Lab 4/Lab 4/website/Enchiladas.html",
+            "docs/Lab 4/Lab 4/website/FloridaRolls.html",
+            "docs/Lab 4/Lab 4/website/KimchiGrilledCheese.html",
+            "docs/Lab 4/Lab 4/website/Lasagna.html",
+            "docs/Lab 4/Lab 4/website/LatinBowl.html",
+            "docs/Lab 4/Lab 4/website/Meatloaf.html",
+            "docs/Lab 4/Lab 4/website/PadThai.html",
+            "docs/Lab 4/Lab 4/website/PastaAndPeas.html",
+            "docs/Lab 4/Lab 4/website/Pizza.html",
+            "docs/Lab 4/Lab 4/website/RedWineRagu.html",
+            "docs/Lab 4/Lab 4/website/SalmonChowder.html",
+            "docs/Lab 4/Lab 4/website/Shakshuka.html")
 ```
 
 ```{r}
@@ -118,8 +119,10 @@ for(i in 1:length(meals)){
 meal=read_html(meals[2])
 image.element=html_element(meal, '.img-fluid')
 source.link=html_attr(image.element, "src")
-image.url=paste("website/", source.link, sep="")
+title = html_element(meal, "h1") |> html_text()
+image.url=paste("website", source.link, sep="")
 cat(paste('<img src="', image.url, '" style="width: 50%; height: auto;">'))
+cat(paste('![', title, '](', image.url, "){width=50%}"))
 instructions.section=html_element(meal, "#instructions")
 instructions=html_elements(instructions.section, 'li')
 formatted_list <- paste("1.", html_text(instructions))

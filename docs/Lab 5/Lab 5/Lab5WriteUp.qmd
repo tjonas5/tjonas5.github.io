@@ -99,7 +99,7 @@ Describe the process -- do not leave out any steps -- for how you can load the d
 
 **Solution** 
 
-First, I downloaded the data from the website and opened in it excel. It came in two sections, and each had two columns of data. I copied all the data and pasted it into a new excel file. Then, I moved the data to all be in the same two columns. I saved this file to the lab folder. After that, I read the data using read_csv, and checked with head() to make sure it loaded properly.
+First, I downloaded the data from the website and opened in it excel. It came in two sections, and each had two columns of data. I copied all the data and pasted it into a new excel file. Then, I moved the data to all be in the same two columns. I saved this file to the lab folder. After that, I read the data using read_csv, and looked at it with head() to get an idea of what the columns were named.
 
 ```{r}
 data.kitsberg = read_csv("Figure3bData.csv")
@@ -184,20 +184,20 @@ In this code, I use the mutate() and case_when() functions like I did previously
 
 ```{r}
 dat.kitsberg.cleaned = dat.kitsberg.cleaned |>
-  mutate(
+  mutate( # section to change CellType into the shorthand
     CellType = case_when(
       CellType == "mac" ~ "Macrophage", 
       CellType == "mono" ~ "Monoctye",
       .default = CellType
     )
-  ) |>
-  mutate(
+  ) |> 
+  mutate( #section to change Treatment into the shorthand
     Treatment = case_when(
       Treatment == "12hpi" ~ "12 Hours Post-Infection", 
       .default = Treatment
     )
   ) |>
-  mutate(
+  mutate( #changing SampleType into the shorthand
     SampleType = case_when(
       SampleType == "primary" ~ "Healthy Donor", 
       SampleType == "THP1" ~ "THP-1",
@@ -221,6 +221,9 @@ In this code, I combine all my previous code and pipe it together. It produces t
 ```{r}
 
 dat.kitsberg.cleaned = data.kitsberg |>
+  # the below code is the code i used earlier
+  # it separates the column, and then filters the data
+  # so only the desired columns are chosen
   separate(col = sample, into= c("SampleType", "CellType", "Treatment"), sep = '_' ) |>
   filter(Treatment=="12hpi") |> 
   select(SampleType, CellType, Treatment, 'viruses within nucleus') |> 
@@ -270,6 +273,7 @@ Recreate Figure 3b as depicted in the paper (see [https://www.nature.com/article
 **Hint**: I would use `geom_violin(...)` for Figure 3b I also expect your plots to look nicer -- better labels, better scaling, etc. Don't forget to use the proper formatting using the syntax in the Quarto cheatsheet.
 
 **Solution**
+This figure tells us that there is a noticable difference in HCMV genomes in the nucleus between monocytes and macrophages in a healthy patient, but that difference is not visible in the monocytes and macrophages 12 hours after infection. 
 
 ```{r}
 #| label: fig-violin-viruses-in-nucleus
@@ -673,7 +677,7 @@ ggplot(data = dat.bal.cleaned) +
 
 ```
 
-In this plot, it appears that the price of the ship decreases as it becomes older, which makes sense. There is a notable period around 21 years old where ship prices briefly increase before decreasing again.
+In this plot, it appears that the price of the ship decreases as it becomes older, which makes sense. There is a notable period around 21 years old where ship prices briefly increase before decreasing again. A possible reason for this is some larger and more expensive ships stopped being made, and thus they keep their price better than others.  
 
 ```{r}
 #| label: tbl-nsum-price-vs-age
@@ -681,6 +685,7 @@ In this plot, it appears that the price of the ship decreases as it becomes olde
 #| tbl-align: "center"
 #| size: scriptsize
 pearson <- cor(dat.bal.cleaned$SPLog, dat.bal.cleaned$Yas, method = "pearson")
+kendall <- cor(dat.bal.cleaned$SPLog, dat.bal.cleaned$Yas, method = "kendall")
 dat.bal.cleaned |>
     group_by(Yas) |>
     summarize(
@@ -690,9 +695,10 @@ dat.bal.cleaned |>
         Median = median(SPLog),
         IQR = IQR(SPLog),
         Pearsons = (pearson),
+        Kendalls = (kendall)
     )|>
     knitr::kable(digits = 2)
 
 ```
 
-Looking at the table, we can see that the average ship price decreases as the ship gets older. We notice that the average price of the ships bottoms out at 19 years, before increasing again until age 23. The average price goes below the 19 year old price again at age 28. We can see a large dropoff in the number of ships after they turn 11 years old. I had to calculate correlation outside of the summarize, because for some reason it was all NA values when the correlation was inside.son
+Looking at the table, we can see that the average ship price decreases as the ship gets older. We notice that the average price of the ships bottoms out at 19 years, before increasing again until age 23. The average price goes below the 19 year old price again at age 28. We can see a large dropoff in the number of ships after they turn 11 years old. I had to calculate correlation outside of the summarize, because it was all NA values when the correlation was inside. Notably, the standard deviation of ships that are 32, 33, and 34 years old cannot be calculated. This is because there is only one ship in each of those ages.

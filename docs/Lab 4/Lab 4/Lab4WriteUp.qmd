@@ -52,13 +52,14 @@ knitr::knit_hooks$set(chunk = function(x, options) {
     x
   }
 })
-
+knitr::opts_knit$set(root.dir = here::here())
 ```
 
 ```{r}
 #| label: load-packages
-#| include: false
+#| include: false)
 library(tidyverse)
+library(here)
 ```
 
 * Complete the tasks below. Make sure to start your solutions in on a new line that starts with "**Solution**:".
