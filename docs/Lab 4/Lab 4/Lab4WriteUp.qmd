@@ -57,7 +57,7 @@ knitr::opts_knit$set(root.dir = here::here())
 
 ```{r}
 #| label: load-packages
-#| include: false)
+#| include: false
 library(tidyverse)
 library(here)
 ```

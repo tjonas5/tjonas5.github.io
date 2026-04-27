@@ -690,5 +690,12 @@
     "title": "Lab Four – Programming in R",
     "section": "2.3 Part c",
     "text": "2.3 Part c\nOpen the html file in a web browser and open developer tools. In chrome-based browsers, you can do this by pressing the three verticle dots in the upper-right corner, clicking “more tools”, then “developer tools”.\nFind the name of the Ingredients section of the website and pull the HTML of the function using html_element(...) and save the results to an object called ingredients.section.  Hint: You can ask for elements by id using a preceeding “#”. See ?html_element(...) for a helpful example.\nSolution\n\n\n\nCode\ningredients.section=html_element(grilled.cheese, \"#ingredients\")"
+  },
+  {
+    "objectID": "Review/Unit 1 Review.html",
+    "href": "Review/Unit 1 Review.html",
+    "title": "BLAH",
+    "section": "",
+    "text": "In this document, we will review the content from Unit 1: Coding in R.\nR can be used as a calculator. To compute this expression: \\[ 4 * \\left 2+ \\frac{2}{3} \\right \\]"
   }
 ]
