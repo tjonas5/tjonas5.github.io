@@ -148,9 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      BLAH
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Review/Review.html">Unit 1 Review</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -219,6 +217,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab 11/Lab11WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Review/Review.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Unit 1 Review</span></a>
   </div>
 </li>
     </ul>
@@ -486,7 +490,7 @@ window.Quarto = {
 </section>
 <section id="vectors" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Vectors</h1>
-<p>A vector is a common data structure that can store multiple values. It can be created manually, using a sequence, or repeating values. Vectors are also atomic - they can only have one type of data. A vector takes the class of whichever object in it is furthest to the right in the list above. In this example, we create a vector manually.</p>
+<p>A vector is a common data structure that can store multiple values. It can be created manually, using a sequence, or repeating values. Vectors are also atomic - they can only have one type of data. A vector takes the class of whichever object in it is furthest to the right in the list above. In this example, we create a vector manually. Note that the class is character, because “hi” is in the vector.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -499,7 +503,7 @@ window.Quarto = {
 </div>
 </div>
 <p></p>
-<p>Here, we create vectors using seq() and rep(). Note that rep() can repeat terms consecutively by using each, or it can repeat sequences using times. Note that repeatedvec is different.</p>
+<p>Here, we create vectors using seq() and rep(). Note that rep() can repeat terms consecutively by using each, or it can repeat sequences using times. Note that repeatedvec is different based on if we use each or times.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -554,6 +558,7 @@ Levels: red sox bruins celtics patriots</code></pre>
 </div>
 </div>
 <p></p>
+<p>Note that</p>
 <p>Vectors can also be indexed to take a specific value out.</p>
 <p></p>
 <div class="cell">

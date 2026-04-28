@@ -151,14 +151,14 @@ There are five classes: Logical, integer, numeric, complex, and character. When 
 
 # Vectors 
 
-A vector is a common data structure that can store multiple values. It can be created manually, using a sequence, or repeating values. Vectors are also atomic - they can only have one type of data. A vector takes the class of whichever object in it is furthest to the right in the list above. In this example, we create a vector manually.
+A vector is a common data structure that can store multiple values. It can be created manually, using a sequence, or repeating values. Vectors are also atomic - they can only have one type of data. A vector takes the class of whichever object in it is furthest to the right in the list above. In this example, we create a vector manually. Note that the class is character, because "hi" is in the vector.
 
 ```{r}
 vector1 = c(8, FALSE, "hi")
 class(vector1)
 ```
 
-Here, we create vectors using seq() and rep(). Note that rep() can repeat terms consecutively by using each, or it can repeat sequences using times. Note that repeatedvec is different.
+Here, we create vectors using seq() and rep(). Note that rep() can repeat terms consecutively by using each, or it can repeat sequences using times. Note that repeatedvec is different based on if we use each or times.
 ```{r}
 (evens = seq(from = 2, to = 20, by = 2))
 (repeatedvec = rep(x = c(1, 45, "hi"), each = 2))
@@ -172,6 +172,8 @@ A factor vector is a vector designed for categorical variables. There is a set o
 factor(teams)
 factor(teams, levels = c("red sox", "bruins", "celtics", "patriots"))
 ```
+
+Note that 
 
 Vectors can also be indexed to take a specific value out. 
 
