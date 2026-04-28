@@ -11,19 +11,19 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - href: Lab 2/Lab2WriteUp.html
+      - href: Lab 2/Lab 2/Lab2WriteUp.html
         text: Lab 2
-      - href: Lab 3/Lab3WriteUp.html
+      - href: Lab 3/Lab 3/Lab3WriteUp.html
         text: Lab 3
-      - href: Lab 4/Lab4WriteUp.html
+      - href: Lab 4/Lab 4/Lab4WriteUp.html
         text: Lab 4
-      - href: Lab 5/Lab5WriteUp.html
+      - href: Lab 5/Lab 5/Lab5WriteUp.html
         text: Lab 5
-      - href: Lab 8/Lab8WriteUp.html
+      - href: Lab 8/Lab 8/Lab8WriteUp.html
         text: Lab 8
-      - href: Lab 10/Lab10WriteUp.html
+      - href: Lab 10/Lab 10/Lab10WriteUp.html
         text: Lab 10
-      - href: Lab 11/Lab11WriteUp.html
+      - href: Lab 11/Lab 11/Lab11WriteUp.html
         text: Lab 11
       - href: Review/Review.html
         text: Unit 1 Review
