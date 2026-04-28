@@ -11,6 +11,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - Review/review.qmd
       - href: "Lab 2/Lab2WriteUp.html"
         text: "Lab 2"
       - href: "Lab 3/Lab3WriteUp.html"
