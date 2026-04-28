@@ -374,19 +374,9 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This is Tobi Jonas’s website of my work so far in Math 240: Computational Statistics. It has all my labs, and a comprehensive review of unit one, which was learning to code in R.",
+    "text": "This is Tobi Jonas’s website of his work so far in Math 240: Computational Statistics. It has all my labs, and a comprehensive review of unit one, which was learning to code in R.",
     "crumbs": [
       "About"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "BLAH",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.",
-    "crumbs": [
-      "Home"
     ]
   },
   {
