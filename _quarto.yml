@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Tobi's Portfolio"
+  sidebar:
+    style: "docked"
+    search: false
+    contents:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+      - href: Lab 2/Lab2WriteUp.qmd
+        text: Lab 2
+      - href: Lab 3/Lab3WriteUp.qmd
+        text: Lab 3
+      - href: Lab 4/Lab4WriteUp.qmd
+        text: Lab 4
+      - href: Lab 5/Lab5WriteUp.qmd
+        text: Lab 5
+      - href: Lab 8/Lab8WriteUp.qmd
+        text: Lab 8
+      - href: Lab 10/Lab10WriteUp.qmd
+        text: Lab 10
+      - href: Lab 11/Lab11WriteUp.qmd
+        text: Lab 11
+      - href: Review/Review.qmd
+        text: Unit 1 Review
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+execute:
+  freeze: auto
