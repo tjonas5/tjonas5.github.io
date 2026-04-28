@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-This is Tobi Jonas's website of his work so far in Math 240: Computational Statistics. It has all my labs, and a comprehensive review of unit one, which was learning to code in R. 
+This is Tobi Jonas's website of his work so far in Math 240: Computational Statistics. It has all the labs, and a comprehensive review of unit one, which was learning to code in R. 
