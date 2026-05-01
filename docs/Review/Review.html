@@ -416,7 +416,7 @@ window.Quarto = {
 </details>
 </div>
 <p></p>
-<p>Once a package is installed, it must be loaded by calling library(). Install.packages is like downloading an app from the app store - only necessary once, while Library() is like pressing on the app to open it on your home screen - have to do it every time to use it. The package will stay in use in your r session if opened once, so it is not necessary to call library() more than once with the same package in the same session.</p>
+<p>Once a package is installed, it must be loaded by calling library(). Install.packages is like downloading an app from the app store - only necessary once, while Library() is like pressing on the app to open it on your home screen - you have to do it every time to use it. The package will stay in use in your r session if opened once, so it is not necessary to call library() more than once with the same package in the same session.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -552,8 +552,8 @@ Levels: red sox bruins celtics patriots</code></pre>
 </div>
 </div>
 <p></p>
-<p>Note that</p>
-<p>Vectors can also be indexed to take a specific value out.</p>
+<p>Note that the second time we used factor, since we specified the levels in order, the levels are now in that order.</p>
+<p>Vectors can also be indexed to take a specific value out. Note that in R, indexing starts at 1 and not 0, which is different than some other programming languages.</p>
 <p></p>
 <div class="cell">
 <details class="code-fold">
@@ -694,7 +694,7 @@ $vectors
 </section>
 <section id="reading-data-frames" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Reading data frames</h1>
-<p>To read in data, we can use the command read.csv, or read_csv (part of the tidyverse package). While these two commands both work to read in csv files, read_csv is faster, produces tibbles (a tidyverse alternative to data frames), and does not convert strings to factors.</p>
+<p>To read in data, we generally use the command read.csv, or read_csv (part of the tidyverse package). These commands only work for .csv files. While these two commands both work to read in csv files, read_csv is faster, and produces tibbles (a tidyverse alternative to data frames).</p>
 </section>
 <section id="conditionals" class="level1" data-number="10">
 <h1 data-number="10"><span class="header-section-number">10</span> Conditionals</h1>
@@ -723,11 +723,11 @@ $vectors
 </details>
 </div>
 <p></p>
-<p>Block notation is a more traditional way of creating conditionals, and also does not have a limit on how many conditions can be passed in. However, block notation does not by default work on vectors, and therefore requires a loop for use on vectors.</p>
+<p>Block notation is a more traditional way of creating conditionals (like in Python), and also does not have a limit on how many conditions can be passed in. However, block notation does not by default work on vectors, and therefore requires a loop for use on vectors.</p>
 </section>
 <section id="loops" class="level1" data-number="11">
 <h1 data-number="11"><span class="header-section-number">11</span> Loops</h1>
-<p>Loops essentially come in different forms: for, and while. A for loop will complete a given task the number of times specified in the creation of the loop. A while loop will complete the tasks until the condition is met. While loops can be constructed using repeat or while. With repeat, you can choose whether the task should be completed before or after checking the condition. With while, the loop will only run while the condition is true and will immediately break out once the condition becomes false.</p>
+<p>Loops essentially come in two different forms: for, and while. A for loop will complete a given task the number of times specified in the creation of the loop. A while loop will complete the tasks until the condition is met. While loops can be constructed using repeat or while. With repeat, you can choose whether the task should be completed before or after checking the condition. With while, the loop will only run while the condition is true and will immediately break out once the condition becomes false, which is checked at the beginning of each new iteration of the loop.</p>
 <p>Examples:</p>
 <p></p>
 <div class="cell">
