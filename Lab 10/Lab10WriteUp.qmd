@@ -155,9 +155,10 @@ ggdat= tibble(theta = theta) |>
 #| fig-height: 3
 #| scale: "80%"
 #| fig-align: "center"
-#| size: scriptsize
+#| size: (scriptsize)
 ggplot(data = ggdat) +
   geom_line(aes(x = theta, y = Probability))+
+  geom_hline(aes(yintercept=0)) +
   theme_bw() + 
     labs(x = "Theta",
         y="P(X=6)")
@@ -179,23 +180,26 @@ ggdat= tibble(Games_won = x) |>
 ```{r}
 #| label: fig-line-all-theta-values-prob
 #| fig-cap: "P(X=6) graphs for theta values .5, 1, and 1.5 "
-#| fig-width: 5
+#| fig-width: 9
 #| fig-height: 3
 #| scale: "80%"
 #| fig-align: "center"
-#| size: scriptsize
+#| size: (scriptsize)
 library(patchwork)
 theta.5plot= ggplot(data = ggdat) +
   geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_.5))+
+  geom_hline(yintercept = 0) +
   theme_bw() + 
     labs(x = "Games won",
         y="P(X=6) when theta = .5")
 theta1plot = ggplot(data = ggdat) +
+  geom_hline(yintercept = 0) +
   geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_1))+
   theme_bw() + 
     labs(x = "Games won",
         y="P(X=6) when theta = 1")
 theta1.5plot = ggplot(data = ggdat) +
+  geom_hline(yintercept = 0) +
   geom_linerange(aes(x = Games_won, ymin=0, ymax = Theta_1.5))+
   theme_bw() + 
     labs(x = "Games won",
@@ -237,7 +241,7 @@ Describe how you can use your answer to part a to find Method of Moments estimat
 
 **Solution**
 
-When given data, we can calculate the mean of the data and the mean of the data squared, which are the sample moments. Using my function, it is possible to calculate the population moments, which are the expected values of the random variable of interest. Setting the first sample moment equal to the first population moment and the second sample moment equal to the second population moment, we would be able to solve the system of equations and find estimates of p and theta.
+When given data, we can calculate the mean of the data and the mean of the data squared, which are the sample moments. Using my function, it is possible to calculate the population moments, which are the expected values of the random variable of interest. Setting the first sample moment equal to the first population moment and the second sample moment equal to the second population moment, we would be able to solve the system of equations using nleqslv and find estimates of p and theta.
 
 ## Part c
 Write a function that computes the log-likelihood for Altham's Multiplicative Binomial Distribution, given data (`x`) and proposed parameter values $p$ (`prob`) and $\theta$ (`theta`).
@@ -246,10 +250,10 @@ Write a function that computes the log-likelihood for Altham's Multiplicative Bi
 Here is the code for that function. 
 
 ```{r}
-loglikelihood = function(x, p, theta, n = 6) {
+loglikelihood = function(x, p, theta, n=11) {
   sum = 0
   for (i in 1:length(x))
-    sum = sum + log(daltbinom(x = x[i], p = p, theta = theta, size=11 ))
+    sum = sum + log(daltbinom(x = x[i], p = p, theta = theta, size = 11))
   return(sum)
 }
 ```
@@ -305,7 +309,7 @@ data3 |>
   summarise(
     total_matches = n(),
     avg_loser_legs = mean(LoserLegs, na.rm = T),
-    pct_close = mean(6 - LoserLegs == 1, na.rm = T)  # close here means decided by 1 leg
+    pct_close = mean(6 - LoserLegs == 1, na.rm = T)  # close here means decided by 1 leg, eg 6-5 outcome
   )
 data3 |>
   group_by(Round) |>
@@ -314,7 +318,7 @@ data3 |>
     # no need to calculate average winner legs since it is always six
     avg_loser_legs  = mean(LoserLegs, na.rm = T),
     pct_close   = mean(6 - LoserLegs == 1, na.rm = T)
-  )
+  ) |> arrange(desc(match_count))
 ```
 
 
@@ -327,13 +331,14 @@ data3 |>
 #| fig-height: 3
 #| scale: "80%"
 #| fig-align: "center"
-#| size: scriptsize
+#| size: (scriptsize)
 data3 |>
   mutate(Score = paste0(WinnerLegs, "-", LoserLegs)) |>
   count(Score) |>
   ggplot(aes(x = reorder(Score, n), y = n)) +
   geom_bar(stat = "identity", fill = "darkorchid2") +
   coord_flip() +
+  theme_bw() + 
   labs(x = "Scoreline", y = "Frequency")
 ```
 
@@ -365,7 +370,8 @@ MLE_calc = function(player, p, theta){
     # use negative because optim minimizes the function
   }
   # I chose (.5, 1) as my initial guess because
-  # I thought that those values were nice middle grounds, since p has a maximum value of 1 and minimum of 0. 
+  # I thought that those values were nice middle grounds, 
+  # since p has a maximum value of 1 and minimum of 0. 
   # When theta = 1, the distribution is the binomial, so I chose that as an intial guess.
   mle = optim(par = c(.5, 1), fn = neg_loglikelihood)
   p_mle = 1/(1 + exp(-mle$par[1])) # translate to p 
@@ -416,7 +422,7 @@ First, I start by using the daltbbinom function given above. Then, I use the sam
 loglikelihood_bb = function(x, size, theta, alpha, beta) {
   sum=0
   for (i in 1:length(x))
-    sum =sum + log(daltbbinom(x = x[i], theta = theta, size = 6, alpha = alpha, beta = beta))
+    sum =sum + log(daltbbinom(x = x[i], theta = theta, size = 11, alpha = alpha, beta = beta))
   sum = as.numeric(sum)
 }
 ```
@@ -433,7 +439,7 @@ MLE_calc_bb = function(player) {
     theta = exp(par[1])
     alpha = exp(par[2])
     beta =exp(par[3])
-    result = -loglikelihood_bb(x = legs_won, theta = theta, size = 6, alpha = alpha, beta = beta)
+    result = -loglikelihood_bb(x = legs_won, theta = theta, size = 11, alpha = alpha, beta = beta)
   }
   # I chose (0.5,0.5,0.5) as my intial guess because it is close
   # to the origin, but since alpha and beta cannot be negative,
@@ -460,7 +466,7 @@ results_bb =map(players, MLE_calc_bb) |>
 ```
 
 
-After sorting the data by different variables, the variable that most closely corresponded with the actual standings was the mean, which is why I am using it in the final submission. In this context, the mean corresponds to the probability of the player winning a leg. Most of the alpha and beta values have similar magnitudes to eachother for different players, however one outlier is Peter Wright. Wright has a beta 10 times larger than anyone else, and his alpha is nearly twice the next largest value. Wright is a consistent outlier in this data, since his mean is the lowest by .2 - a huge difference in leg win probability. His variance is also small, suggesting that the model is confident in it's assessment of Wright's skills. This accurately reflects his poor performance in the tournament. Only two players had a theta value of less than one - Luke Humphries and Peter Wright. This means that they were more likely to lose a leg after winning one, while everyone else was more likely to win a leg after winning previously. This makes sense for Wright, since he was the worst player this season, he lost most of his legs. 
+After sorting the data by different variables, the variable that most closely corresponded with the actual standings was the mean, which is why I am using it in the final submission. In this context, the mean corresponds to the probability of the player winning a leg. Most of the alpha and beta values have similar magnitudes to eachother for different players, however one outlier is Peter Wright. Wright has a beta 10 times larger than anyone else, and his alpha is nearly twice the next largest value. Wright is a consistent outlier in this data, since his mean is the lowest by .2 - a huge difference in leg win probability. His variance is also small, suggesting that the model is confident in it's assessment of Wright's skills. This accurately reflects his poor performance in the tournament. Only two players had a theta value of less than one - Luke Humphries and Peter Wright. This means that they were more likely to play in less close matches. This makes sense for Wright, since he was the worst player this season and he lost most of his legs. 
 ```{r}
 #| label: tbl-beta-binom
 #| tbl-cap: "MLE for each player in the Altham's Beta Binomial Distribution"
@@ -472,30 +478,32 @@ knitr::kable(results_bb, col.names = c("Player", "theta", "alpha", "beta", "mean
 
 ```{r}
 library(patchwork)
-plot_beta = function(player_name) {
+player_beta_data = function(player_name) {
   player_dat = filter(results_bb, player == player_name)
   beta_dat= tibble(
     x = seq(0, 1, length.out = 1000),
     density = dbeta(seq(0, 1, length.out = 1000), shape1 = as.numeric(player_dat$alpha), shape2 = as.numeric(player_dat$beta))
   )
-  # plot
-  ggplot(beta_dat, aes(x = x, y = density)) +
-    geom_line(linewidth = 0.8, colour = "steelblue") +
-    labs(x = "p",
-         y  = "Density",
-         title = player_name) +
-    theme_bw()
 }
 
-# example usage
-littler = plot_beta("Luke Littler")
-humphries = plot_beta("Luke Humphries")
-gerwen = plot_beta("Michael van Gerwen")
-smith = plot_beta("Michael Smith")
-aspinall = plot_beta("Nathan Aspinall")
-cross = plot_beta("Rob Cross")
-price = plot_beta("Gerwyn Price")
-wright = plot_beta("Peter Wright")
+
+littler = player_beta_data("Luke Littler")
+price = player_beta_data("Gerwyn Price")
+humphries = player_beta_data("Luke Humphries")
+smith = player_beta_data("Michael Smith")
+gerwen = player_beta_data("Michael van Gerwen")
+aspinall = player_beta_data("Nathan Aspinall")
+wright = player_beta_data("Peter Wright")
+cross = player_beta_data("Rob Cross")
+
+all_players_data = littler |> 
+  left_join(price, by = "x") |>
+  left_join(humphries, by = "x") |>
+  left_join(smith, by = "x") |>
+  left_join(gerwen, by = "x") |>
+  left_join(aspinall, by = "x") |>
+  left_join(wright, by = "x") |>
+  left_join(cross, by = "x") 
 ```
 
 ```{r}
@@ -505,9 +513,24 @@ wright = plot_beta("Peter Wright")
 #| fig-height: 3
 #| scale: "80%"
 #| fig-align: "center"
-#| size: scriptsize
-# using the method I did in the other lab to make them next to each other instead of facet_wrap
-littler + humphries + gerwen + smith + aspinall + cross + price + wright
+#| size: (scriptsize)
+#In joining my data, the names of the columns were changed. 
+# Here I manually fix it and then graph the data.
+
+all_players_data |> 
+  rename(littler = density.x,
+         price = density.y,
+         humphries = density.x.x, 
+         smith = density.y.y,
+         gerwen = density.x.x.x, 
+         aspinall = density.y.y.y,
+         wright = density.x.x.x.x, 
+         cross = density.y.y.y.y) |>
+  pivot_longer(-x, names_to = "player", values_to = "density") |>
+  ggplot(aes(x = x, y = density, color = player)) +
+  geom_line(linewidth = 0.8) +
+  theme_bw()
+
 ```
 
 7 out of 8 of the player graphs look the same and are heavily right skewed towards a p value of one, with the only exception being Peter Wright. His distribution looks gaussian, likely due to his relatively small win probability that is not as large as the others. 
@@ -517,9 +540,8 @@ Summarize the work you've done here to provide a brief (200-300 word) data-drive
 
 **Solution**
 
-The 2024 Premier League could be modeled by the Altham's Binomial Distribution, or Altham's Beta Binomial Distribution with a fair degree of accuracy. Both distributions predicted the same final standings, and had 5 out of the 8 players in the same spots they were at in the real standings. This suggests that single leg win probability is predictive of overall success in the season. In the Beta Binomial distribution, the theta values calculated were above one for all players except Peter Wright and Luke Humphries. This suggests that Wright and Humphries were more likely to lose after winning the previous leg, while every other player was more likely to win after winning the previous leg.
-In the Binomial distribution, however, only Peter Wright had a theta below one. He also had the lowest single leg win probability.
+The 2024 Premier League could be modeled by the Altham's Binomial Distribution, or Altham's Beta Binomial Distribution with a fair degree of accuracy. Both distributions predicted the same final standings, and had 5 out of the 8 players in the same spots they were at in the real standings. This suggests that single leg win probability is predictive of overall success in the season. In the Beta Binomial distribution, the theta values calculated were above one for all players except Peter Wright and Luke Humphries. This suggests that these players had less close matches and were consistently involved in more blowouts than their peers. In the Binomial distribution, however, only Peter Wright had a theta below one. He also had the lowest single leg win probability. Wright's low theta makes sense, since he lost the most legs by far, it follows that he would have lost games that were not very close. 
 
-Looking at the variances, Luke Littler and Peter Wright had the two lowest values. They were also the first and last place finishers, respectively. This means that their leg win probabilities are the most accurately predicted ones by the model, which makes sense, because they were the best/worst players. Wright's low variance, theta below one and low single leg win probability can all be attributed to his very poor performance relative to the rest of the players - he lost 43 more legs than he won.
+Looking at the variances, Luke Littler and Peter Wright had the two lowest values. They were also the first and last place finishers, respectively. This means that their beta distributions were the least variable, so they were more consistently good/bad. This makes sense, because they were the best/worst players. Wright's low variance, theta below one and low single leg win probability can all be attributed to his very poor performance relative to the rest of the players - he lost 43 more legs than he won.
 
 Looking at overall league match result distributions, the majority of matches are won either 6-5 or 6-4, which suggests that the skill of the players is comparable. 

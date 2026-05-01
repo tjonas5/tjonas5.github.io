@@ -304,7 +304,7 @@ Here is the table I made containing relevant summary statistics.
 #| label: tbl-nsum-viruses-in-nucleus
 #| tbl-cap: "Viruses within nucleus by Cell Type and Sample Type."
 #| tbl-align: "center"
-#| size: scriptsize
+#| size: (scriptsize)
 dat.kitsberg.cleaned |>
     group_by(CellType2, SampleType) |>
     summarize(
