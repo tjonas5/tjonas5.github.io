@@ -640,7 +640,196 @@ window.Quarto = {
 </div>
 </div>
 <p></p>
-<p>For one continuous and one categorical variable, we take the plots used for a categorical variable and group them. This gives us grouped histograms, grouped boxplots, and grouped violin plots.</p>
+<p>For one continuous and one categorical variable, we take the plots used for a categorical variable and group them. This gives us grouped histograms, grouped boxplots, and grouped violin plots. We use a similar process for the numerical summary, calculating group means, group medians, group IQR, and group standard deviation.</p>
+<p>Here is the code for a numerical summary. Note the similarity to the numerical summary for one categorical variable - the only difference is the group_by at the beginning.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="fu">summarize</span>(</span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="at">Mean =</span> <span class="fu">mean</span>(body_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="at">SD =</span> <span class="fu">sd</span>(body_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="at">Median =</span> <span class="fu">median</span>(body_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="at">IQR =</span> <span class="fu">IQR</span>(body_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="at">Skewness =</span> e1071<span class="sc">::</span><span class="fu">skewness</span>(body_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="st">"Excess Kurtosis"</span> <span class="ot">=</span> e1071<span class="sc">::</span><span class="fu">kurtosis</span>(body_mass, <span class="at">na.rm =</span> T)</span>
+<span id="cb22-10"><a href="#cb22-10"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  species    Mean    SD Median   IQR Skewness `Excess Kurtosis`
+  &lt;fct&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;             &lt;dbl&gt;
+1 Adelie    3701.  459.   3700  650    0.280             -0.626
+2 Chinstrap 3733.  384.   3700  462.   0.237              0.363
+3 Gentoo    5076.  504.   5000  800    0.0679            -0.779</code></pre>
+</div>
+</div>
+<p></p>
+<p>For the grouped histogram, we take the code for the histogram and add facet_wrap() at the end to group it by species.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">ggplot</span>(penguins) <span class="sc">+</span> <span class="co"># Specify Data</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> body_mass, <span class="co"># Specify x-axis</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>    <span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="co"># Specify y-axis</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2000</span>, <span class="dv">7000</span>, <span class="dv">500</span>), <span class="co"># Specify bins</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>    <span class="at">color =</span> <span class="st">"gray"</span>)<span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co"># Plot x-axis</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># A cleaner theme</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Mass (g)"</span>, <span class="co"># Specify axis labels</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>    <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a>    <span class="fu">ggtitle</span>(<span class="st">"Body Mass in palmerpenguins Data"</span>) <span class="sc">+</span> <span class="co"># Plot title</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>species, <span class="at">nrow =</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>Here is the code for a grouped boxplot.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">ggplot</span>(penguins) <span class="sc">+</span> <span class="co"># Specify Data</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, <span class="co"># Specify no grouping</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>    <span class="at">y =</span> body_mass), <span class="co"># Specify y-axis</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>    <span class="at">width =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># A cleaner theme</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Species"</span>, <span class="co"># Specify axis labels</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>    <span class="at">y =</span> <span class="st">"Body Mass (g)"</span>) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="fu">ggtitle</span>(<span class="st">"Body Mass in palmerpenguins Data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>Here is the code for a grouped violin plot.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">ggplot</span>(penguins) <span class="sc">+</span> <span class="co"># Specify Data</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, <span class="co"># Specify no grouping</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="at">y =</span> body_mass), <span class="co"># Specify y-axis</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> <span class="co"># A transparent light grey</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> species, <span class="co"># Specify no grouping</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="at">y =</span> body_mass), <span class="co"># Specify y-axis</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="at">width =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># A cleaner theme</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Species"</span>, <span class="co"># Specify axis labels</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="at">y =</span> <span class="st">"Body Mass (g)"</span>) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a><span class="fu">ggtitle</span>(<span class="st">"Body Mass in palmerpenguins Data"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>For two continuous variables, we only make the scatter plot for a graph. For the numerical summary, we calculate Pearson and Spearman’s Correlations, and Kendall’s Tau. The code for these is below.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="fu">drop_na</span>(bill_dep, bill_len) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="fu">summarize</span>(</span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="at">Pearson =</span> <span class="fu">cor</span>(bill_dep, bill_len, <span class="at">method=</span><span class="st">"pearson"</span>),</span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="at">Spearman =</span> <span class="fu">cor</span>(bill_dep, bill_len, <span class="at">method=</span><span class="st">"spearman"</span>),</span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="at">Kendall =</span> <span class="fu">cor</span>(bill_dep, bill_len, <span class="at">method=</span><span class="st">"kendall"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Pearson   Spearman    Kendall
+1 -0.2350529 -0.2217492 -0.1228502</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">ggplot</span>(penguins) <span class="sc">+</span> <span class="co"># Specify Data</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_dep, <span class="co"># Specify x-axis</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="at">y =</span> bill_len)) <span class="sc">+</span> <span class="co"># Specify y-axis</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_dep, <span class="co"># Specify x-axis</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="at">y =</span> bill_len), <span class="co"># Specify y-axis</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a><span class="at">method =</span> <span class="st">"lm"</span>, <span class="co"># Specify best fit line</span></span>
+<span id="cb29-7"><a href="#cb29-7"></a><span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> <span class="co"># Specify line color</span></span>
+<span id="cb29-8"><a href="#cb29-8"></a><span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># A cleaner theme</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, <span class="co"># Specify axis labels</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a><span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11"></a><span class="fu">ggtitle</span>(<span class="st">"Body Mass in palmerpenguins Data"</span>) <span class="co">#</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>We can expand upon the scatterplot to group it by a categorical variable.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">ggplot</span>(penguins) <span class="sc">+</span> <span class="co"># Specify Data</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_dep, <span class="co"># Specify x-axis</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="at">y =</span> bill_len, <span class="co"># Specify y-axis</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="at">color =</span> species)) <span class="sc">+</span> <span class="co"># Specify color</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_dep, <span class="co"># Specify x-axis</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="at">y =</span> bill_len, <span class="co"># Specify y-axis</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="at">color =</span> species), <span class="co"># Specify color</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> <span class="co"># Specify best fit line</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># A cleaner theme</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, <span class="co"># Specify axis labels</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="at">color =</span> <span class="st">"Species"</span>) <span class="sc">+</span> <span class="co"># Specify legend labels</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a><span class="fu">ggtitle</span>(<span class="st">"Body Mass in palmerpenguins Data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>Here I practice with a different dataset: Horseshoe crabs. I chose two continuous variables: weight and width, and one categorical: color. There appears to be a positive correlation between width and weight, but there is not seemingly any correlation between color and width, or color and weight.</p>
+<p></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>dat <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"Review/Brockmann96.csv"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="fu">ggplot</span>(dat) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> width, <span class="at">color =</span> color)) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Review2_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
 
 
 </section>

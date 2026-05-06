@@ -330,10 +330,10 @@ Here is the code for a grouped violin plot.
 ```{r}
 ggplot(penguins) + # Specify Data
 geom_violin(aes(x = species, # Specify no grouping
-y = body_mass_g), # Specify y-axis
+y = body_mass), # Specify y-axis
 fill = "lightgrey", alpha=0.5) + # A transparent light grey
 geom_boxplot(aes(x = species, # Specify no grouping
-y = body_mass_g), # Specify y-axis
+y = body_mass), # Specify y-axis
 width = 0.1)+
 theme_bw() + # A cleaner theme
 labs(x = "Species", # Specify axis labels
