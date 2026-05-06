@@ -282,4 +282,112 @@ ggtitle("Body Mass in palmerpenguins Data") + # Plot title
 theme(axis.ticks.x = element_blank()) 
 ```
 
-For one continuous and one categorical variable, we take the plots used for a categorical variable and group them. This gives us grouped histograms, grouped boxplots, and grouped violin plots. 
+For one continuous and one categorical variable, we take the plots used for a categorical variable and group them. This gives us grouped histograms, grouped boxplots, and grouped violin plots. We use a similar process for the numerical summary, calculating group means, group medians, group IQR, and group standard deviation. 
+
+Here is the code for a numerical summary. Note the similarity to the numerical summary for one categorical variable - the only difference is the group_by at the beginning.
+```{r}
+penguins |>
+group_by(species) |>
+summarize(
+Mean = mean(body_mass, na.rm = T),
+SD = sd(body_mass, na.rm = T),
+Median = median(body_mass, na.rm = T),
+IQR = IQR(body_mass, na.rm = T),
+Skewness = e1071::skewness(body_mass, na.rm = T),
+"Excess Kurtosis" = e1071::kurtosis(body_mass, na.rm = T)
+)
+```
+
+For the grouped histogram, we take the code for the histogram and add facet_wrap() at the end to group it by species. 
+
+```{r}
+ggplot(penguins) + # Specify Data
+    geom_histogram(aes(x = body_mass, # Specify x-axis
+    y = after_stat(density)), # Specify y-axis
+    breaks = seq(2000, 7000, 500), # Specify bins
+    color = "gray")+
+    geom_hline(yintercept = 0)+ # Plot x-axis
+    theme_bw() + # A cleaner theme
+    labs(x = "Body Mass (g)", # Specify axis labels
+    y = "Density") +
+    ggtitle("Body Mass in palmerpenguins Data") + # Plot title
+    facet_wrap(~species, nrow =3)
+```
+
+Here is the code for a grouped boxplot.
+```{r}
+ggplot(penguins) + # Specify Data
+    geom_boxplot(aes(x = species, # Specify no grouping
+    y = body_mass), # Specify y-axis
+    width = 0.1)+
+    theme_bw() + # A cleaner theme
+    labs(x = "Species", # Specify axis labels
+    y = "Body Mass (g)") +
+    ggtitle("Body Mass in palmerpenguins Data")
+```
+
+Here is the code for a grouped violin plot. 
+```{r}
+ggplot(penguins) + # Specify Data
+geom_violin(aes(x = species, # Specify no grouping
+y = body_mass_g), # Specify y-axis
+fill = "lightgrey", alpha=0.5) + # A transparent light grey
+geom_boxplot(aes(x = species, # Specify no grouping
+y = body_mass_g), # Specify y-axis
+width = 0.1)+
+theme_bw() + # A cleaner theme
+labs(x = "Species", # Specify axis labels
+y = "Body Mass (g)") +
+ggtitle("Body Mass in palmerpenguins Data") 
+```
+
+For two continuous variables, we only make the scatter plot for a graph. For the numerical summary, we calculate Pearson and Spearman's Correlations, and Kendall's Tau. The code for these is below.
+
+```{r}
+penguins |>
+drop_na(bill_dep, bill_len) |>
+summarize(
+Pearson = cor(bill_dep, bill_len, method="pearson"),
+Spearman = cor(bill_dep, bill_len, method="spearman"),
+Kendall = cor(bill_dep, bill_len, method="kendall")
+)
+
+ggplot(penguins) + # Specify Data
+geom_point(aes(x = bill_dep, # Specify x-axis
+y = bill_len)) + # Specify y-axis
+geom_smooth(aes(x = bill_dep, # Specify x-axis
+y = bill_len), # Specify y-axis
+method = "lm", # Specify best fit line
+color = "black") + # Specify line color
+theme_bw() + # A cleaner theme
+labs(x = "Bill Depth (mm)", # Specify axis labels
+y = "Bill Length (mm)") +
+ggtitle("Body Mass in palmerpenguins Data") #
+```
+
+We can expand upon the scatterplot to group it by a categorical variable.
+
+```{r}
+ggplot(penguins) + # Specify Data
+geom_point(aes(x = bill_dep, # Specify x-axis
+y = bill_len, # Specify y-axis
+color = species)) + # Specify color
+geom_smooth(aes(x = bill_dep, # Specify x-axis
+y = bill_len, # Specify y-axis
+color = species), # Specify color
+method = "lm") + # Specify best fit line
+theme_bw() + # A cleaner theme
+labs(x = "Bill Depth (mm)", # Specify axis labels
+y = "Bill Length (mm)",
+color = "Species") + # Specify legend labels
+ggtitle("Body Mass in palmerpenguins Data")
+```
+
+Here I practice with a different dataset: Horseshoe crabs. I chose two continuous variables: weight and width, and one categorical: color. There appears to be a positive correlation between width and weight, but there is not seemingly any correlation between color and width, or color and weight. 
+```{r}
+dat = read_csv("Review/Brockmann96.csv")
+
+ggplot(dat) +
+    geom_point(aes(x = weight, y = width, color = color)) +
+    theme_bw()
+```
