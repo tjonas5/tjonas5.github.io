@@ -27,6 +27,12 @@ website:
         text: Unit 1 Review
       - href: Review/Review2.qmd
         text: Unit 2 Review
+      - href: Review/Review3.qmd
+        text: Unit 3 Review
+      - href: Review/Review4.qmd
+        text: Unit 4 & 5 Review 
+      - href: Review/Review5.qmd
+        text: Unit 6 Review 
 
 format:
   html:
