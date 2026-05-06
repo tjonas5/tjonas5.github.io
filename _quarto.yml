@@ -25,6 +25,8 @@ website:
         text: Lab 11
       - href: Review/Review.qmd
         text: Unit 1 Review
+      - href: Review/Review2.qmd
+        text: Unit 2 Review
 
 format:
   html:
