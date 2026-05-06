@@ -1,0 +1,739 @@
+---
+title: Review for Unit Three # Title of the document
+
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+# Below will do html by default. To render the entire project
+# Use the following code:
+# quarto::quarto_render("Review.qmd")
+format:
+  html:       # Specify HTML formatting options 
+    number-sections: true      # Number Sections
+    code-fold: true            # Button to show code
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables and figures
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+knitr::opts_knit$set(root.dir = here::here())
+```
+
+# Introduction
+
+In this review, we discuss probability. We use probability as a way to get an idea of what may be going on in a larger population based on a sample from that population. 
+A random variable is a characteristic or measurement that we have for each observation. If it is quantitiative, it assumes we have numerical values. Within quantitative variables, we have continuous, which means the variable is double measured (infinite amount), and discrete, which means the variable is countable (limited amount). 
+
+The support of a variable tells us what values the variable can take on, similar to the domain from mathematics. The distribution of a variable tells us how often it takes these values.
+
+For measuring probabilites that a variable takes on a specific value, we have two tools: the probability mass function (PMF), and the probability density function (PDF). 
+
+The PMF is used on discrete random variables. It is a function that returns the probability of observing x (a specific value). In graphical form, this is a population-level bar plot.
+
+Here is an example PMF plot of the Poisson distribution. As can be seen, each value of x has a probability that corresponds to the height of its bar. 
+```{r}
+library(tidyverse)
+lambda <- 2
+ ggdat <- tibble(x = -1:10) |>
+ mutate(PMF = dpois(x, lambda = lambda),
+ CDF = ppois(x, lambda = lambda))
+
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+
+PMF.plot
+```
+
+The PDF is used on continuous random variables. It is a function of the random variable where the probability is represented by the area under it. In graphical form, this is a population-level histogram or density plot. 
+
+This is similar to the data distribution: for categorical/discrete data, we use a relative frequency table to get the proportion of observations for each observable value, and then use a bar plot to visualize the proportions. For continuous data, we use the five number summary to describe it, and then use a histogram to visualize the distribution. 
+
+# Discrete probability models
+
+The cumulative distribution function (CDF) of a random variable (X), denoted by $F_x(x)$, is defined for all x as 
+$F_x(x) = P(X \leq x)$.
+
+This is an example CDF for the Poisson distribution.
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+The inverse CDF of a random variable X is denoted by $F_x^{-1}(p)$. We can use the inverse CDF to calculate the $p^{th}$ percentile: $F^{-1}_X(p) = x$.
+
+The PMF of a discrete random variable X is given by $f_x(x) = P(X = x).$
+
+The CDF of a discrete random variable X is given by $F_x(x) = P(X = x). = \Sigma f_X(x)$
+
+# Example on the Poisson distribution
+
+The Poisson distribution is used to model the number of events of interest in a given time or space. It has one parameter, $\lambda$, which represents the average number of events of interest in a given time or space. 
+
+Using this distribution, we will calculate and graph:
+
+1. $P(X = 0)$ 
+
+2. $P(X \neq 0)$ 
+
+3. $P(X < 2)$
+
+4. $P(X \leq 2)$
+
+5. $P(X > 2)$
+
+6. $P(X \geq 2)$
+
+7. $P(0 \leq X \leq 2)$
+
+8. $P(0 < X \leq 2)$
+
+9. $P(0 \leq X < 2)$
+
+10. $P(0 < X < 2)$
+
+Solutions: 
+
+1. $P(X = x)$ 
+
+$P(X = 0)$ = $f_x(0)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x==0),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+
+PMF.plot
+```
+
+2. $P(X \neq 0)$
+$P(X \neq 0)$ = $1 - f_x(0)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x!=0),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+
+PMF.plot
+```
+
+3. $P(X < 2)$
+$P(X < 2) = f_X(0) + f_X(1) = F_X(1)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x < 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==1),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+4. $P(X \leq 2)$
+$P(X \leq 2) = f_X(0) + f_X(1) + f_X(2) = F_X(2)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x <= 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==2),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+5. $P(X > 2)$
+$P(X > 2) = 1 - F_X(2)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x > 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==2),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+6. $P(X \geq 2)$
+$P(X \geq 2) = 1 - F_X(1)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x >= 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==1),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+7. $P(0 \leq X \leq 2)$
+$P(0 \leq X \leq 2) = f_x(0) + f_x(1) + f_x(2) =  F_X(2)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x <= 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==2),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+
+8. $P(0 < X \leq 2)$
+$P(0 \leq X \leq 2) = f_x(1) + f_x(2) =  F_X(2) - f_x(0)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x <= 2) |> filter(x > 0),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==2),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+9. $P(0 \leq X < 2)$
+$P(0 \leq X < 2) = f_x(0) + f_x(1) =  F_X(1)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x < 2),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==1),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+10. $P(0 < X < 2)$
+$P(0 < X < 2) = f_x(1) =  F_X(1) - F_x(0)$
+```{r}
+PMF.plot <- ggplot() +
+ geom_linerange(data = ggdat,
+ aes(x = x, ymin = 0, ymax = PMF)) +
+ geom_linerange(data = ggdat |> filter(x < 2) |> filter(x>0),
+ aes(x = x, ymin = 0, ymax = PMF),
+ color = "darkorchid2", linewidth=2, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Probability") +
+ theme_bw()
+PMF.plot
+```
+
+```{r}
+CDF.plot <- ggplot() +
+ geom_step(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat, aes(x = x, y = CDF)) +
+ geom_point(data=ggdat |> filter(x==1),
+ aes(x = x, y = CDF),
+ color="darkorchid2", size=2.5, alpha=0.50) +
+ geom_hline(yintercept = 0) +
+ scale_x_continuous("x", breaks=0:10) +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+# Continuous Probability Models 
+
+The CDF of a random variable, denoted by $F_X(x)$, is defined as $F_X(x) = P(X \leq x)$. The $p^{th}$ percentile can be calculated using the inverse CDF, similar to the discrete case. 
+
+The PDF of a continuous random variable is defined as $F_X(x) = P(X \leq x) = \int^{x}_{-\infty} f_x(x) dx$. 
+
+Some population-level characteristics than can be written are the mean: $\mu_x = E(X)$, and the variance: $var(X) = E[(X-\mu_x)^2]$
+
+# Example on the Gaussian (Normal) distribution
+
+The gaussian distribution is used to model a continuous outcome that is more likely to occur near the mean and symmetrically less likely to occur further from the mean. Outliers are relatively rare. It has two parameters: $mu$, which is the population mean, and $\sigma$, which is the population standard deviation. 
+
+Example: 
+1. $P(X = 3076.88)$
+2. $P(X \neq 3076.88)$
+3. $P(X < 2500)$
+4. $P(X \leq 2500)$
+5. $P(X > 2500)$
+6. $P(X \geq 2500)$
+7. $P(2500 \leq X \leq 3076.88)$
+8. $P(2500 < X \leq 3076.88)$
+9. $P(2500 \leq X < 3076.88)$
+10. $P(2500 < X < 3076.88)$
+
+Solutions: 
+```{r}
+ mu <- 3076.88
+ sigma <- 344.362
+
+ ggdat <- tibble(x = seq(mu-4*sigma, mu+4*sigma, length.out=1000)) |>
+ mutate(PDF = dnorm(x, mean = mu, sd = sigma),
+ CDF = pnorm(x, mean = mu, sd = sigma))
+
+```
+
+1. $P(X = 3076.88)$
+A line has zero area, so $P(X = 3076.88) = 0$.
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_linerange(data=tibble(x=3076.88) |> mutate(PDF=dnorm(x, mu, sigma)),
+ aes(x = x, ymin=0, ymax=PDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+2. $P(X \neq 3076.88)$
+A line has zero area, so $P(X \neq 3076.88)$ $= 1 -P(X = 3076.88) = 1 $.
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+3. $P(X < 2500)$
+$P(X < 2500) = P(X \leq 2500) = F_X(2500)$
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(data = ggdat |> filter(x < 2500), aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+```{r}
+CDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = CDF)) +
+ geom_point(data=tibble(x=2500) |> mutate(CDF=pnorm(x, mu, sigma)),
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+4. $P(X \leq 2500)$
+$P(X \leq 2500) = F_x(2500)$
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(data = ggdat |> filter(x < 2500), aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+```{r}
+CDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = CDF)) +
+ geom_point(data=tibble(x=2500) |> mutate(CDF=pnorm(x, mu, sigma)),
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+5. $P(X > 2500)$
+$P(X > 2500) = 1 - P(X \leq 2500) = 1 - F_x(2500)$
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(data = ggdat |> filter(x > 2500), aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+```{r}
+CDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = CDF)) +
+ geom_point(data=tibble(x=2500) |> mutate(CDF=pnorm(x, mu, sigma)),
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+6. $P(X \geq 2500)$
+$P(X \geq 2500) = 1 - P(X < 2500) = 1 - P(X \leq 2500) = 1 - F_x(2500)$
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(data = ggdat |> filter(x > 2500), aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+```{r}
+CDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = CDF)) +
+ geom_point(data=tibble(x=2500) |> mutate(CDF=pnorm(x, mu, sigma)),
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+7. $P(2500 \leq X \leq 3076.88)$ 
+$P(2500 \leq X \leq 3076.88) = P(X \leq 3076.88) - P(X \leq 2500) = F_X(3076.88) - F_X(2500)$
+```{r}
+PDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = PDF)) +
+ geom_ribbon(data = ggdat |> filter(x > 2500) |> filter(x < 3076.88), aes(x = x, ymin=0, ymax=PDF),
+ fill="darkorchid2", alpha=0.50)+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Density") +
+ theme_bw()
+
+PDF.plot
+```
+
+```{r}
+CDF.plot <- ggplot(ggdat) +
+ geom_line(aes(x = x, y = CDF)) +
+ geom_point(data=tibble(x=2500) |> mutate(CDF=pnorm(x, mu, sigma)), 
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_point(data=tibble(x=3076.88) |> mutate(CDF=pnorm(x, mu, sigma)), 
+ aes(x = x, y=CDF), color="darkorchid2")+
+ geom_hline(yintercept = 0) +
+ xlab("Tensile Strength (MPa)") +
+ ylab("Cumulative Probability") +
+ theme_bw()
+CDF.plot
+```
+
+The rest of the exercises are the same as the previous one, because of the continuous property. As such, the answers will not be shown here. 
+
+# Distributions
+
+The Poisson and Gaussian distributions were previously discussed. In this section, we discuss many more different distributions. To model these distributions, we used the distribution functions (ex. binom, pois) with prefixes d, p, q, and r. The prefix d calculates the PMF, p calculates the CDF, q calculates the inverse CDF, and r generates random numbers from that distribution. 
+
+## Discrete Distributions
+
+The Bernoulli distribution is used to model whether an event of interest occurs in a given trial. It is parametrized by a parameter p that is the probability of the event of interest in any trial. It has a binary outcome, and is thus referred to as the "coin-flip" distribution. Here we use the distribution functions
+
+```{r}
+dbinom(x = 1, prob = 0.25, size = 1) # P(X = 1 |p=0.25)
+# x is the event we want to calculate the probability of, prob is the probability of observing 1, size is the number of trials (always one in the Bernoulli). 
+# Essentially, P(X = x).
+
+pbinom(q = 1, prob = 0.25, size = 1) # P(X <= 1 |p=0.25) 
+# q is the bar for P(X <= q), prob is the prob of observing 1, size is number of trials again.
+
+
+qbinom(p = 0.2, prob = 0.25, size = 1) # The 20th percentile
+# p is the percentile you want to be found, prob and size are the same as previously.
+
+rbinom(n = 10, prob = 0.25, size = 1) # A random sample
+# n is the number of random events, prob and size are the same as before. 
+```
+
+The Binomial distribution is used to model the count of events of interest in a set of trials. It is essentially multiple Bernoulli distributions. It is parametrized by p: the probability of the event of interest occuring in any trial, and n: the number of trials. 
+
+Here we use the distribution functions: 
+```{r}
+dbinom(x = 1, prob = 0.25, size = 10) # P(X = 1 |n=10, p=0.25)
+# x is the amount of trials the event happens in, prob is the prob the event happens in one trial, and size is the number of trials within that one experiment.
+
+pbinom(q = 1, prob = 0.25, size = 10) # P(X <= 1 |n=10, p=0.25)
+# q is the bar in P(X <= q), prob and size are the same as before. This gives the height at the point on the CDF where x = 1. 
+
+qbinom(p = 0.20, prob = 0.25, size = 10) # The 20th percentile
+# p is the percentile desired, prob and size are the same.
+
+rbinom(n = 10, prob = 0.25, size = 10) # A random sample
+# n is the number of times the entire experiment is completed, prob is the same, and size is the number of independent trials in a single experiment 
+```
+
+The Negative Binomial distribution models the number of events of non-interest that occur before the rth event of interest. It is parametrized by p: the probability of the evnt of interest in any trial, and r: the target number of events of interest. 
+
+Here we use the distribution functions:
+```{r}
+dnbinom(x = 1, prob = 0.35, size = 5) #P(X=1|n=5,p=0.35) - prob of getting exactly 1 failure before the 5th success, when each trial has a 35% success rate
+
+# x corresponds to the number of failures (where the PMF is evaluated), prob is the probabililty of the event of interest occuring, size is the target number of successes. 
+
+pnbinom(q = 1, prob = 0.35, size = 5) #P(X<=1|n=5,p=0.35)
+# - prob of 1 (q) or fewer failures before the achieving 5(size) successes, where prob is the probability of success in one trial
+
+
+qnbinom(p = 0.2, prob = 0.35, size = 5) #The 20th percentile
+# inverse CDF - how many failures is the 20th percentile (p) before 5 successes, prob is probability of success in one trial
+
+rnbinom(n = 10, prob = 0.35, size = 5) #A random sample
+
+# n is the number of times the whole experiment is done, size is the number of trials per experiment, prob is the same as before
+```
+
+## Continuous Distributions
+
+The Uniform distribution is used to model a continuous outcome that is equally likely to occur within a lower and upper bound. It is parametrized by a: the population minimum, and b: the population maximum. 
+
+Here we use the distribution functions:
+
+```{r}
+dunif(x = 0.20, min = 0, max = 1) #This the height of the PDF at x=0.20
+
+punif(q = 0.20, min = 0, max = 1) #P(X<=0.20|a=0,b=1)
+#the probability that a value on the interval [0,1] is less than .2 (q)
+
+qunif(p = 0.90, min = 0, max = 1) #The 90th percentile
+# the value at the 90th percentile on the interval [0,1]
+
+runif(n = 5, min = 0, max = 1) #A random sample
+#5 random samples from the interval [0,1]. all numbers have an equal likelihood of being chosen
+```
+
+The Lognormal distribution models a continuous outcome that is strictly positive. It is right skewed. It is parametrized by $\mu$: the population mean of log(X), and by $\sigma$: the population standard deviation of log(X). 
+
+Here we use the distribution functions:
+
+```{r}
+dlnorm(x = 0.50, meanlog = 0, sdlog = 1) #This is the height of the PDF at x=0.50
+
+plnorm(q = 0.25, meanlog = 0, sdlog = 1) #P(X<=0.25|mu=0,sigma=1)
+
+qlnorm(p = 0.90, meanlog = 0, sdlog = 1) #The 90th percentile
+
+rlnorm(n = 5, meanlog = 0, sdlog = 1) #A random sample
+```
+
+The Exponential distribution models a continuous outcome that is strictly positive. It is right skewed. It is parametrized by $\lambda$, which is the inverse of the population mean. 
+
+Here we use the distribution functions: 
+```{r}
+dexp(x = 0.20, rate = 1) #This the height of the PDF at x=0.20
+
+pexp(q = 2, rate = 1) #P(X<=2|lambda=1)
+
+qexp(p = 0.90, rate = 1) #The 90th percentile
+
+rexp(n = 5, rate = 1) #A random sample
+```
+
+Finally, we have the Gamma distribution. The Gamma distribution models a continuous outcome that is strictly positive. It is right skewed. It is parametrized by $\alpha$: the shape parameter that controls skewness, and $\beta$: the rate parameter that scales mean and variance.
+
+Here we use the distribution functions: 
+
+```{r}
+dgamma(x = 0.20, shape = 2, rate = 1) #This the height of the PDF at x=0.20
+
+pgamma(q = 2, shape = 2, rate = 1) #P(X<=2|alpha=2,beta=1)
+
+qgamma(p = 0.90, shape = 2, rate = 1) #The 90th percentile
+
+rgamma(n = 5, shape = 2, rate = 1) #A random sample
+```
