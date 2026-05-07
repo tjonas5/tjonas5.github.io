@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – Tobi’s Portfolio</title>
+<title>Review for Unit Four – Tobi’s Portfolio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,23 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a2a938b4dd5711f7a799c87bd16ba44c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a2a938b4dd5711f7a799c87bd16ba44c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,8 +71,37 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -84,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Review/Review4.html">Unit 4 &amp; 5 Review</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -96,86 +125,86 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Tobi’s Portfolio</a> 
+      <a href="../">Tobi’s Portfolio</a> 
     </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 2/Lab2WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 2/Lab2WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 3/Lab3WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 3/Lab3WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 4/Lab4WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 4/Lab4WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 5/Lab5WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 5/Lab5WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 5</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 8/Lab8WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 8/Lab8WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 8</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 10/Lab10WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 10/Lab10WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 10</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab 11/Lab11WriteUp.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab 11/Lab11WriteUp.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 11</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Review/Review.html" class="sidebar-item-text sidebar-link">
+  <a href="../Review/Review.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit 1 Review</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Review/Review2.html" class="sidebar-item-text sidebar-link">
+  <a href="../Review/Review2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit 2 Review</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Review/Review3.html" class="sidebar-item-text sidebar-link">
+  <a href="../Review/Review3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit 3 Review</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Review/Review4.html" class="sidebar-item-text sidebar-link">
+  <a href="../Review/Review4.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Unit 4 &amp; 5 Review</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Review/Review5.html" class="sidebar-item-text sidebar-link">
+  <a href="../Review/Review5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit 6 Review</span></a>
   </div>
 </li>
@@ -184,15 +213,25 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#point-estimation" id="toc-point-estimation" class="nav-link active" data-scroll-target="#point-estimation"><span class="header-section-number">1</span> Point Estimation</a></li>
+  <li><a href="#method-of-moments" id="toc-method-of-moments" class="nav-link" data-scroll-target="#method-of-moments"><span class="header-section-number">2</span> Method of Moments</a></li>
+  <li><a href="#maximum-likelihood-estimations" id="toc-maximum-likelihood-estimations" class="nav-link" data-scroll-target="#maximum-likelihood-estimations"><span class="header-section-number">3</span> Maximum Likelihood estimations</a></li>
+  <li><a href="#comparing-point-estimators" id="toc-comparing-point-estimators" class="nav-link" data-scroll-target="#comparing-point-estimators"><span class="header-section-number">4</span> Comparing point estimators</a></li>
+  <li><a href="#sampling-distributions" id="toc-sampling-distributions" class="nav-link" data-scroll-target="#sampling-distributions"><span class="header-section-number">5</span> Sampling distributions</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Review4.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Review for Unit Four</h1>
 </div>
 
 
@@ -209,9 +248,58 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is Tobi Jonas’s website of his work so far in Math 240: Computational Statistics. It has all the labs, and a comprehensive review of unit one, which was learning to code in R.</p>
+<p></p>
+<p></p>
+<p>This unit will tell us how to use our data analysis and probability tools to come to conclusions about a general population based on a smaller, representative sample. We will do this by first choosing a distribution to fit the data, then finding values for the parameters of these distributions. We will choose the values that make the observed data the most likely.</p>
+<section id="point-estimation" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Point Estimation</h1>
+<p>A point estimator <span class="math inline">\(\theta (X) = \theta (X_1, X_2, ... X_n)\)</span> is any function of the sample <span class="math inline">\(\bf{X}\)</span>. Therefore, any statistic is a point estimator. Correspondingly, <span class="math inline">\(\theta (x) =\theta (x_1, x_2, ... x_n)\)</span> is a point estimate. Fixed <span class="math inline">\(\theta (x)\)</span> is a realization of random <span class="math inline">\(\theta (X)\)</span>.</p>
+<p>Because a point estimator is a statistic, it is random and has its own distribution (a sampling distribution). We will explore two different methods for finding point estimators: Method of Moments, and Maximum Likelihood.</p>
+<p>Before going into the estimators, we discuss two rules: Law of Large Numbers, and Central Limit Theorem.</p>
+<p>The Law of Large numbers says that, for a sample with finite variance, as the size of the sample increases, the sample mean (mean of the sample) gets closer to the population mean (mean of the larger population).</p>
+<p>The Central Limit Theorem says that as the size of a sample increases, its distribution becomes more and more Gaussian until $ n $, at which point it becomes approximately Gaussian. This is true regardless of the population’s underlying distribution.</p>
+</section>
+<section id="method-of-moments" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Method of Moments</h1>
+<p>Sample moments are the average of powers of the observed sample data. The following is done with the mean.</p>
+<p>This is the mean of the observed sample data. <span class="math inline">\(x_{bar} = m_1 = \frac{1}{n}\sum_{i=1}^n x_i^1\)</span>,</p>
+<p>This is the mean of the observed sample data squared. <span class="math inline">\(x_{bar}^2 = m_2 = \frac{1}{n}\sum_{i=1}^n x_i^2\)</span>,</p>
+<p>This is the mean of the observed sample data cubed. <span class="math inline">\(x_{bar}^3 = m_3 = \frac{1}{n}\sum_{i=1}^n x_i^3\)</span></p>
+<p>Population moments are the expected values or population means of powers of the random variable of interest. For example,</p>
+<p>This is the expected value of the mean: <span class="math inline">\(\mu_1 = E(X^1)\)</span></p>
+<p>This is the expected value of the mean squared: <span class="math inline">\(\mu_2 = E(X^2)\)</span></p>
+<p>This is the expected value of the mean cubed: <span class="math inline">\(\mu_3 = E(X^3)\)</span>.</p>
+<p>Next, we equate the first k sample moments to the first k population moments and solve for <span class="math inline">\(\theta\)</span>. In this example, we will only use <span class="math inline">\(k =1\)</span> or <span class="math inline">\(k=2\)</span>. For these, we will create and solve an approximate system of equations.</p>
+<p><span class="math inline">\(E(X^1) \approx m_1 = \frac{1}{n}\sum_{i=1}^n x_i^1\)</span></p>
+<p><span class="math inline">\(E(X^2) \approx m_2 = \frac{1}{n}\sum_{i=1}^n x_i^2\)</span>.</p>
+<p>We then solve the equations by using nleqslv(), and choose the parameters that make the sample moments match the population moments. This works because of the law of large numbers.</p>
+</section>
+<section id="maximum-likelihood-estimations" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Maximum Likelihood estimations</h1>
+<p>The Maximum Likelihood Estimations come from the log-likelihood function. A <span class="math inline">\(\theta\)</span> value that maximizes the likelihood function is a maximum likelihood estimate, and is the value of <span class="math inline">\(\theta\)</span> that maximizes the probability of observing the data x. In practice, this is computed by using optim() to find the minimum of the negative log-likelihood function.</p>
+</section>
+<section id="comparing-point-estimators" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Comparing point estimators</h1>
+<p>Estimators have bias, precision, and mean squared error (MSE).</p>
+<p>Bias deals with accuracy, which means how accurate a point estimator is at estimating the population-level parameter <span class="math inline">\(\theta\)</span> on average. Bias is calculated as <span class="math inline">\(Bias_\theta(\hat\theta) = E(\hat\theta - \theta)\)</span>. However, in real scenarios, we do not know the true value of the population parameter and thus cannot calculate bias.</p>
+<p>Precision is related to the variance of a point estimator. It is calculated as <span class="math inline">\(Precision_\theta(\hat\theta) = \frac{1}{var_\theta(\hat\theta)}\)</span>. Small variance means high precision.</p>
+<p>Accuracy and precision have notable differences. Using darts as an example, if you are accurate and precise, you will hit the bullseye three times. If you are accurate but not precise, you will hit the same non-bullseye spot three times. If you are precise but not accurate, you will hit three spots that form an equilateral triangle around the bullseye. If you are not accurate and not precise, you will miss the bullseye in three random locations.</p>
+<p>The MSE combines information from the precision and bias.</p>
+<p><span class="math inline">\(MSE_\theta(\hat\theta) = var_\theta(\hat\theta) + Bias^2_\theta(\hat\theta)\)</span></p>
+<p>When comparing estimators, we want an estimator that is unbiased, and has the lowest variance.</p>
+</section>
+<section id="sampling-distributions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Sampling distributions</h1>
+<p>The distribution of a statistic is called its sampling distribution. When talking about estimators, which are statistics, we say that a sampling distribution describes how the estimator <span class="math inline">\(\hat\theta\)</span> varies in repeated sampling from a population.</p>
+<p>Resampling is a technique that involves taking repeated, random samples from an original, representative sample to mimic reproducing an experiment on the population. For each random sample taken from the original, we can calculate summary statistics or estimates. To assess the sampling distribution of any statistic or estimator, we can plot a histogram of the statistics for all resamples and a density curve. The curve will estimate the sampling distribution.</p>
+<p>To perform resampling: 1. Treat the original sample as a population, and take a resample of the same size with replacement. 2. Compute the statistic of interest on the resample, and store it.</p>
+<p>In the end, we have a sample of observations of the resample that we can summarize with a histogram and statistics like the mean, variance, skewness, and kurtosis.</p>
+<p>For the a random sample from a Gaussian distribution, the sample mean has a gaussian distribution. This means that the sample mean is an unbiased estimator of the population mean.</p>
+<p>For a random sample NOT from a Gaussian distribution, as n increases, the distribution of the sample mean becomes approximately Gaussian.</p>
+<p>When talking about the sampling distribution of the sample mean, we say that the sampling distribution is approximately Gaussian if either of the following are true: The sample is representative, or <span class="math inline">\(n\geq 30\)</span>. This works for many distributions, including skewed ones such as Exponential, Gamma, and Lognormal.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
